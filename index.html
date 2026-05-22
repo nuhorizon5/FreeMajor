@@ -413,36 +413,53 @@ body{
   </div>
 
   <!-- ══════════════ OB06 환영 ══════════════ -->
-  <div class="screen" id="s-ob06">
+  <div class="screen" id="s-ob06" style="position:relative;">
     <style>
       @keyframes floatUpOut {
-        0%   { opacity:1; transform:translateY(0) scale(1); }
-        100% { opacity:0; transform:translateY(-28px) scale(.7); }
+        0%   { opacity:1; transform:translateY(0) rotate(0deg) scale(1); }
+        25%  { opacity:1; transform:translateY(-6px) rotate(-10deg) scale(1.15); }
+        100% { opacity:0; transform:translateY(-52px) rotate(15deg) scale(.4); }
       }
       @keyframes floatDownOut {
-        0%   { opacity:1; transform:translateY(0) scale(1); }
-        100% { opacity:0; transform:translateY(28px) scale(.7); }
+        0%   { opacity:1; transform:translateY(0) rotate(0deg) scale(1); }
+        25%  { opacity:1; transform:translateY(6px) rotate(10deg) scale(1.15); }
+        100% { opacity:0; transform:translateY(52px) rotate(-15deg) scale(.4); }
+      }
+      @keyframes logoFadeOut {
+        0%   { opacity:1; transform:translate(-50%,-50%) scale(1); }
+        100% { opacity:0; transform:translate(-50%,-50%) scale(.92); }
+      }
+      @keyframes screenFadeIn {
+        0%   { opacity:0; }
+        100% { opacity:1; }
       }
       .punct-q  { display:inline-block; }
       .punct-ex { display:inline-block; }
-      .punct-q.animate  { animation: floatUpOut .45s cubic-bezier(.4,0,.2,1) forwards; }
-      .punct-ex.animate { animation: floatDownOut .45s cubic-bezier(.4,0,.2,1) .12s forwards; }
+      .punct-q.animate  { animation: floatUpOut .65s cubic-bezier(.25,0,.15,1) forwards; }
+      .punct-ex.animate { animation: floatDownOut .65s cubic-bezier(.25,0,.15,1) .2s forwards; }
+      #ob6-logo.fadeout { animation: logoFadeOut .5s ease forwards; }
+      .screen.fadein    { animation: screenFadeIn .5s ease forwards !important; }
     </style>
-    <div style="flex:1;display:flex;flex-direction:column;padding:0 28px 28px;">
-      <div style="flex:1.2;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:20px;">
-        <div style="text-align:center;margin-bottom:16px;">
-          <div style="font-size:60px;font-weight:800;color:var(--ink);letter-spacing:-1.5px;line-height:.85;">Free<span class="punct-q" id="punct-q" style="color:var(--vi);">?</span></div>
-          <div style="font-size:60px;font-weight:800;color:var(--ink);letter-spacing:-1.5px;line-height:.85;">Major<span class="punct-ex" id="punct-ex" style="color:var(--vi);">!</span></div>
-        </div>
-        <div style="font-size:18px;font-weight:800;color:var(--ink);margin-bottom:6px;letter-spacing:-.4px;">환영해요!</div>
-        <div style="font-size:13px;color:var(--dim);">첫 질문을 올려보세요</div>
-      </div>
-      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:10px;">
-        <button class="ob-btn" style="width:100%;" onclick="launchQuestion()">질문 올리기</button>
-        <button class="ob-btn ghost" style="width:100%;" onclick="goTo('s-home')">홈으로</button>
-      </div>
+
+    <!-- 로고 — 절대 중앙 고정 -->
+    <div id="ob6-logo" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;transition:top .35s cubic-bezier(.4,0,.2,1),transform .35s cubic-bezier(.4,0,.2,1);">
+      <div style="font-size:60px;font-weight:800;color:var(--ink);letter-spacing:-1.5px;line-height:.85;">Free<span class="punct-q" id="punct-q" style="color:var(--vi);">?</span></div>
+      <div style="font-size:60px;font-weight:800;color:var(--ink);letter-spacing:-1.5px;line-height:.85;">Major<span class="punct-ex" id="punct-ex" style="color:var(--vi);">!</span></div>
     </div>
-    <div class="homeind"><div class="homeind-bar"></div></div>
+
+    <!-- 부수 콘텐츠 — 로고 아래 -->
+    <div id="ob6-sub" style="position:absolute;top:50%;left:0;right:0;padding-top:90px;text-align:center;transition:opacity .25s ease;">
+      <div style="font-size:18px;font-weight:800;color:var(--ink);margin-bottom:6px;letter-spacing:-.4px;">환영해요!</div>
+      <div style="font-size:13px;color:var(--dim);">첫 질문을 올려보세요</div>
+    </div>
+
+    <!-- 버튼 영역 — 하단 고정 -->
+    <div id="ob6-btns" style="position:absolute;bottom:44px;left:28px;right:28px;display:flex;flex-direction:column;gap:10px;transition:opacity .25s ease;">
+      <button class="ob-btn" onclick="launchQuestion()">질문 올리기</button>
+      <button class="ob-btn ghost" onclick="goTo('s-home')">홈으로</button>
+    </div>
+
+    <div class="homeind" style="position:absolute;bottom:0;left:0;right:0;"><div class="homeind-bar"></div></div>
   </div>
 
   <!-- ══════════════ 홈 ══════════════ -->
@@ -508,7 +525,7 @@ body{
         <div>
           <div class="sec-hd"><span class="sec-title">이번 주 콘텐츠</span><span class="sec-more" onclick="setTab('explore')">전체보기</span></div>
           <div class="content-card" onclick="goTo('s-content-detail')">
-            <div class="content-card-bg" id="content-bg" style="background-image:url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=60');"></div>
+            <div class="content-card-bg" id="content-bg" style="background-image:url('콘텐츠_형광리소.jpg'),url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=60');" ></div>
             <div class="content-dot"></div>
             <div class="content-inner">
               <div class="content-tag-lbl">재료 · 도구</div>
@@ -609,7 +626,7 @@ body{
         <div>
           <div style="display:flex;flex-direction:column;gap:1px;background:rgba(123,79,255,.06);border-radius:14px;overflow:hidden;">
             <div style="background:#fff;padding:14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;" onclick="goTo('s-content-detail')">
-              <div style="width:64px;height:64px;border-radius:10px;background:#1A1A1A;flex-shrink:0;overflow:hidden;"><div style="width:100%;height:100%;background-image:url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=200&q=60');background-size:cover;opacity:.8;"></div></div>
+              <div style="width:64px;height:64px;border-radius:10px;background:#1A1A1A;flex-shrink:0;overflow:hidden;"><div style="width:100%;height:100%;background-image:url('콘텐츠_형광리소.jpg'),url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=200&q=60');background-size:cover;opacity:.8;"></div></div>
               <div style="flex:1;">
                 <div style="font-size:9.5px;color:var(--vi);font-weight:600;margin-bottom:4px;letter-spacing:.04em;">재료·도구</div>
                 <div style="font-size:13px;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:4px;">형광 vs 리소 완벽 정리</div>
@@ -617,7 +634,7 @@ body{
               </div>
             </div>
             <div style="background:#fff;padding:14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;">
-              <div style="width:64px;height:64px;border-radius:10px;background:var(--vl);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><i class="ti ti-trophy" style="font-size:26px;color:var(--vi);"></i></div>
+              <div style="width:64px;height:64px;border-radius:10px;background:var(--vl);flex-shrink:0;overflow:hidden;"><div style="width:100%;height:100%;background-image:url('아티클_공모전.jpg');background-size:cover;background-position:center;" onerror-fallback></div></div>
               <div style="flex:1;">
                 <div style="font-size:9.5px;color:var(--vi);font-weight:600;margin-bottom:4px;letter-spacing:.04em;">공모전</div>
                 <div style="font-size:13px;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:4px;">요즘 포트폴리오 트렌드 총정리</div>
@@ -625,7 +642,7 @@ body{
               </div>
             </div>
             <div style="background:#fff;padding:14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;" onclick="goTo('s-channel')">
-              <div style="width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,#F4F1FB,#E8E4FF);flex-shrink:0;display:flex;align-items:center;justify-content:center;"><i class="ti ti-eye" style="font-size:26px;color:var(--vi);"></i></div>
+              <div style="width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,#F4F1FB,#E8E4FF);flex-shrink:0;overflow:hidden;"><div style="width:100%;height:100%;background-image:url('아티클_시각디자인.jpg');background-size:cover;background-position:center;"></div></div>
               <div style="flex:1;">
                 <div style="font-size:9.5px;color:var(--vi);font-weight:600;margin-bottom:4px;letter-spacing:.04em;">채널</div>
                 <div style="font-size:13px;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:4px;">시각디자인 채널 핫 질문</div>
@@ -1179,19 +1196,57 @@ function submitQuestion() {
 
 // ── OB06 물음표/느낌표 사라지는 모션 ──
 function launchQuestion() {
-  const q  = document.getElementById('punct-q');
-  const ex = document.getElementById('punct-ex');
+  const sub   = document.getElementById('ob6-sub');
+  const btns  = document.getElementById('ob6-btns');
+  const logo  = document.getElementById('ob6-logo');
+  const q     = document.getElementById('punct-q');
+  const ex    = document.getElementById('punct-ex');
   if (!q || !ex) { goTo('s-qwrite'); return; }
-  q.classList.add('animate');
-  ex.classList.add('animate');
+
+  // 1단계: 환영해요 + 버튼 페이드 아웃 (400ms)
+  sub.style.transition  = 'opacity .4s ease';
+  btns.style.transition = 'opacity .4s ease';
+  sub.style.opacity     = '0';
+  btns.style.opacity    = '0';
+  sub.style.pointerEvents  = 'none';
+  btns.style.pointerEvents = 'none';
+
+  // 2단계: 숨 고르기 — 로고만 화면 한가운데 (350ms)
   setTimeout(() => {
-    goTo('s-qwrite');
-    // 다음에 다시 OB06 올 때를 위해 리셋
+
+    // 3단계: ? 위로 회전 사라짐 + ! 아래로 회전 사라짐
+    q.classList.add('animate');
+    ex.classList.add('animate');
+
+    // 4단계: 두 기호 사라진 후 — 로고 자체도 페이드 아웃 (500ms)
     setTimeout(() => {
-      q.classList.remove('animate');
-      ex.classList.remove('animate');
-    }, 400);
-  }, 680);
+      logo.classList.add('fadeout');
+
+      // 5단계: 크로스페이드로 다음 화면 전환
+      setTimeout(() => {
+        const next = document.getElementById('s-qwrite');
+        const cur  = document.getElementById('s-ob06');
+        cur.classList.remove('active');
+        next.classList.add('active', 'fadein');
+        stack.push('s-qwrite');
+        setTimeout(() => next.classList.remove('fadein'), 500);
+
+        // 리셋
+        setTimeout(() => {
+          sub.style.transition  = '';
+          btns.style.transition = '';
+          sub.style.opacity     = '1';
+          btns.style.opacity    = '1';
+          sub.style.pointerEvents  = '';
+          btns.style.pointerEvents = '';
+          logo.classList.remove('fadeout');
+          q.classList.remove('animate');
+          ex.classList.remove('animate');
+        }, 400);
+      }, 300);
+    }, 850);   // ? ! 애니 완료 후 여운
+
+  }, 750);     // 페이드 아웃 + 숨 고르기
 }
 
 // ── 학교 검색 필터 ──
