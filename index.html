@@ -8,8 +8,8 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
-  --vi:#7B4FFF; --vi2:#5A32D6; --vl:#EDE8FF; --vb:#F4F1FB;
-  --ink:#1A1A1A; --dim:#C0B8D8; --coral:#FF6B6B; --gray:#888;
+  --vi:#7B4FFF; --vi2:#5A32D6; --vl:#EDE8FF; --vb:#F6F4FC;
+  --ink:#1A1A1A; --dim:#7A6F9A; --coral:#E5534B; --gray:#555;
   --card-shadow:0 2px 12px rgba(123,79,255,.08);
   --fab-shadow:0 6px 20px rgba(123,79,255,.45);
 }
@@ -21,6 +21,123 @@ body{
   padding:40px 0 60px;
   overflow-x:hidden;
 }
+
+
+/* ─── 토스트 알림 ─────────────────────── */
+@keyframes toastDown{from{transform:translateY(-80px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+@keyframes toastUp  {from{transform:translateY(0);opacity:1;}to{transform:translateY(-80px);opacity:0;}}
+.toast{
+  position:fixed;top:56px;left:50%;transform:translateX(-50%);
+  background:var(--ink);color:#fff;
+  padding:11px 18px;border-radius:20px;
+  font-size:12px;font-weight:600;line-height:1.4;
+  display:flex;align-items:center;gap:10px;
+  box-shadow:0 8px 24px rgba(0,0,0,.22);
+  z-index:999;white-space:nowrap;
+  animation:toastDown .32s cubic-bezier(.4,0,.2,1) forwards;
+  max-width:320px;
+}
+.toast.hide{animation:toastUp .28s cubic-bezier(.4,0,.2,1) forwards;}
+.toast-avatar{width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#555;}
+.toast-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+.toast-dot{width:7px;height:7px;border-radius:50%;background:#4CAF50;flex-shrink:0;}
+
+/* ─── 답변 보상 팝업 ─────────────────── */
+@keyframes rewardPop{
+  0%  {transform:translateX(-50%) scale(.7);opacity:0;}
+  65% {transform:translateX(-50%) scale(1.05);}
+  100%{transform:translateX(-50%) scale(1);opacity:1;}
+}
+.reward-popup{
+  position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
+  background:#fff;border-radius:20px;padding:16px 22px;
+  box-shadow:0 12px 40px rgba(0,0,0,.18);
+  z-index:998;text-align:center;min-width:220px;
+  animation:rewardPop .4s cubic-bezier(.4,0,.2,1) forwards;
+  border:1.5px solid rgba(123,79,255,.15);
+}
+.reward-emoji{font-size:36px;margin-bottom:6px;}
+.reward-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:3px;letter-spacing:-.3px;}
+.reward-sub{font-size:12px;color:var(--dim);}
+.reward-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--vi);color:#fff;
+  font-size:11px;font-weight:700;
+  padding:4px 12px;border-radius:20px;margin-top:8px;
+}
+
+/* ─── Empty State ──────────────────────── */
+.empty-state{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:48px 24px;text-align:center;gap:12px;
+}
+.empty-illust{font-size:52px;margin-bottom:4px;}
+.empty-title{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.4px;}
+.empty-desc{font-size:13px;color:var(--dim);line-height:1.6;}
+.empty-btn{
+  margin-top:8px;padding:11px 24px;border-radius:20px;
+  background:var(--vi);color:#fff;font-size:13px;font-weight:700;
+  border:none;cursor:pointer;font-family:inherit;
+  box-shadow:0 4px 14px rgba(123,79,255,.3);
+}
+
+/* ─── 익명 보장 배지 ───────────────────── */
+.anon-badge{
+  display:flex;align-items:center;gap:8px;
+  background:#F8F6FF;border-radius:12px;padding:10px 14px;
+  border:1px solid rgba(123,79,255,.1);
+}
+.anon-badge-icon{font-size:18px;flex-shrink:0;}
+.anon-badge-text{font-size:12px;color:#5A32D6;font-weight:600;line-height:1.4;}
+.anon-badge-sub{font-size:10px;color:var(--dim);font-weight:400;margin-top:1px;}
+
+/* ─── 답변자 대시보드 ──────────────────── */
+.answerer-card{
+  background:var(--ink);border-radius:20px;padding:20px;
+  color:#fff;position:relative;overflow:hidden;
+}
+.answerer-card::before{
+  content:'';position:absolute;top:-30px;right:-30px;
+  width:120px;height:120px;border-radius:50%;
+  background:rgba(255,255,255,.05);
+}
+.answerer-level{
+  font-size:11px;font-weight:700;color:rgba(255,255,255,.5);
+  letter-spacing:.08em;margin-bottom:6px;
+}
+.answerer-title{font-size:20px;font-weight:900;letter-spacing:-.5px;margin-bottom:4px;}
+.answerer-sub{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:16px;}
+.answerer-stats{display:flex;gap:0;}
+.answerer-stat{flex:1;text-align:center;}
+.answerer-stat-num{font-size:22px;font-weight:900;letter-spacing:-1px;}
+.answerer-stat-lbl{font-size:10px;color:rgba(255,255,255,.45);margin-top:2px;}
+.answerer-stat-div{width:1px;background:rgba(255,255,255,.1);margin:4px 0;}
+
+/* 뱃지 그리드 */
+.badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.badge-item{text-align:center;}
+.badge-icon{
+  width:52px;height:52px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin:0 auto 5px;
+}
+.badge-icon.earned{background:#F0EDF9;}
+.badge-icon.locked{background:#F5F5F5;filter:grayscale(1);opacity:.4;}
+.badge-name{font-size:10px;font-weight:600;color:var(--ink);}
+.badge-name.locked{color:var(--dim);}
+
+/* 추천 질문 (답변 유도) */
+.rec-q-card{
+  background:#fff;border-radius:16px;padding:14px;
+  border:1px solid rgba(0,0,0,.06);cursor:pointer;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.rec-q-urgency{
+  font-size:10px;font-weight:700;padding:3px 8px;
+  border-radius:6px;white-space:nowrap;flex-shrink:0;margin-top:1px;
+}
+.rec-q-urgency.hot{background:#FFF0E8;color:#D94A00;}
+.rec-q-urgency.new{background:#E8F5E9;color:#2E7D32;}
 
 /* ─── 디바이스 ─────────────────────────────── */
 .device{
@@ -49,6 +166,122 @@ body{
 @keyframes slideOut{from{transform:translateX(0)}to{transform:translateX(-30%)}}
 @keyframes slideBackIn{from{transform:translateX(-30%)}to{transform:translateX(0)}}
 
+/* ─── 디테일 애니메이션 ──────────────────── */
+@keyframes popIn{
+  0%  {transform:scale(.85);opacity:0;}
+  65% {transform:scale(1.06);}
+  100%{transform:scale(1);opacity:1;}
+}
+@keyframes fadeUp{
+  from{transform:translateY(12px);opacity:0;}
+  to  {transform:translateY(0);opacity:1;}
+}
+@keyframes shimmer{
+  0%  {background-position:-300px 0;}
+  100%{background-position:300px 0;}
+}
+@keyframes pulseRing{
+  0%  {box-shadow:0 0 0 0 rgba(123,79,255,.35);}
+  70% {box-shadow:0 0 0 10px rgba(123,79,255,0);}
+  100%{box-shadow:0 0 0 0 rgba(123,79,255,0);}
+}
+@keyframes slideUpFade{
+  from{transform:translateY(20px);opacity:0;}
+  to  {transform:translateY(0);opacity:1;}
+}
+@keyframes checkPop{
+  0%  {transform:scale(0) rotate(-12deg);opacity:0;}
+  60% {transform:scale(1.15) rotate(3deg);}
+  100%{transform:scale(1) rotate(0);opacity:1;}
+}
+@keyframes notiPulse{
+  0%,100%{opacity:1;}
+  50%    {opacity:.4;}
+}
+
+/* 카드 진입 */
+.card-enter{animation:fadeUp .3s cubic-bezier(.4,0,.2,1) forwards;}
+.card-enter-2{animation:fadeUp .3s cubic-bezier(.4,0,.2,1) .06s both;}
+.card-enter-3{animation:fadeUp .3s cubic-bezier(.4,0,.2,1) .12s both;}
+
+/* 질문 성공 체크 */
+.success-check{animation:checkPop .45s cubic-bezier(.4,0,.2,1) forwards;}
+
+/* shimmer 로딩 스켈레톤 */
+.shimmer{
+  background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);
+  background-size:600px 100%;
+  animation:shimmer 1.4s infinite linear;
+  border-radius:8px;
+}
+
+/* 명예의 전당 1위 shimmer */
+.hall-first{
+  position:relative;overflow:hidden;
+}
+.hall-first::before{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);
+  animation:shimmer 2.2s infinite;
+  pointer-events:none;
+}
+
+/* 헤더 스크롤 shadow */
+.main-hd.scrolled{box-shadow:0 2px 12px rgba(0,0,0,.08);}
+
+/* 광고 배너 */
+.ad-banner{
+  background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,.06);
+  padding:12px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;
+  position:relative;overflow:hidden;
+}
+.ad-banner::before{
+  content:'AD';position:absolute;top:8px;right:10px;
+  font-size:9px;font-weight:700;color:var(--dim);
+  letter-spacing:.06em;opacity:.5;
+}
+.ad-thumb{
+  width:52px;height:52px;border-radius:12px;flex-shrink:0;
+  background:#F0F0F0;overflow:hidden;
+}
+.ad-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.ad-body{flex:1;}
+.ad-label{font-size:10px;font-weight:600;color:var(--vi);margin-bottom:3px;letter-spacing:.04em;}
+.ad-title{font-size:13px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:3px;}
+.ad-sub{font-size:11px;color:var(--dim);}
+.ad-cta{
+  font-size:11px;font-weight:700;padding:6px 12px;border-radius:20px;
+  background:var(--ink);color:#fff;flex-shrink:0;white-space:nowrap;
+}
+
+/* 답변 없음 넛지 */
+.ans-nudge{
+  background:linear-gradient(135deg,#F8F6FF,#EDE8FF);
+  border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;
+  border:1px solid rgba(123,79,255,.12);margin-top:8px;
+}
+.ans-nudge-badge{
+  font-size:18px;flex-shrink:0;
+}
+.ans-nudge-text{flex:1;font-size:12px;color:#5A32D6;font-weight:600;line-height:1.4;}
+.ans-nudge-sub{font-size:10px;color:var(--dim);font-weight:400;margin-top:1px;}
+
+/* 글자 수 카운터 */
+.char-counter{
+  font-size:11px;color:var(--dim);text-align:right;margin-top:4px;
+  transition:color .15s;
+}
+.char-counter.warn{color:var(--coral);}
+
+/* 알림 dot 펄스 */
+.noti-live-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--coral);
+  flex-shrink:0;animation:notiPulse 1.8s ease infinite;
+}
+
+/* 질문 올리기 버튼 pulse */
+.submit-pulse{animation:pulseRing 1.8s ease infinite;}
+
 /* ─── 스크롤 바디 ─────────────────────────── */
 .scroll-body{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
 .scroll-body::-webkit-scrollbar{display:none;}
@@ -62,7 +295,7 @@ body{
 .ob-illust::after{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(123,79,255,.15);}
 .ob-title{font-size:22px;font-weight:800;color:var(--ink);text-align:center;letter-spacing:-.5px;margin-bottom:8px;}
 .ob-desc{font-size:13px;color:var(--gray);text-align:center;line-height:1.6;margin-bottom:24px;}
-.ob-btn{width:100%;padding:15px;background:var(--vi);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(123,79,255,.3);transition:opacity .15s;letter-spacing:-.2px;}
+.ob-btn{width:100%;padding:15px;background:var(--vi);color:#fff;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(123,79,255,.3);transition:opacity .15s;letter-spacing:-.2px;}
 .ob-btn:active{opacity:.85;}
 .ob-btn.ghost{background:#fff;color:var(--vi);border:1.5px solid var(--vl);box-shadow:none;margin-top:10px;}
 .ob-skip{font-size:12px;color:var(--dim);text-align:center;margin-top:14px;cursor:pointer;}
@@ -72,74 +305,183 @@ body{
 
 /* ─── 온보딩 입력 ─────────────────────────── */
 .ob-label{font-size:12px;font-weight:600;color:var(--gray);margin-bottom:6px;}
-.ob-input{width:100%;border:1.8px solid var(--vi);border-radius:12px;padding:13px 15px;font-size:14px;color:var(--ink);outline:none;font-family:inherit;}
-.ob-hint{font-size:11.5px;color:var(--dim);margin-top:6px;}
+.ob-input{width:100%;border:1.5px solid rgba(0,0,0,.12);border-radius:12px;padding:13px 15px;font-size:14px;color:var(--ink);outline:none;font-family:inherit;transition:border-color .15s;}
+.ob-input:focus{border-color:var(--vi);}
+.ob-hint{font-size:12px;color:var(--dim);margin-top:6px;}
 .ob-schools{margin-top:14px;display:flex;flex-direction:column;gap:6px;}
-.ob-school-row{padding:10px 12px;background:#F9F9F9;border-radius:11px;font-size:13px;font-weight:500;color:var(--ink);cursor:pointer;border:1.5px solid transparent;transition:all .15s;}
+.ob-school-row{padding:10px 14px;background:#F9F9F9;border-radius:12px;font-size:13px;font-weight:500;color:var(--ink);cursor:pointer;border:1.5px solid transparent;transition:all .15s;display:flex;align-items:center;gap:12px;}
 .ob-school-row.sel{border-color:var(--vi);background:var(--vl);color:var(--vi);}
+.ob-school-logo-wrap{width:32px;height:32px;border-radius:8px;background:#fff;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid rgba(0,0,0,.06);}
+.ob-school-logo{width:24px;height:24px;object-fit:contain;display:block;}
 .ob-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
-.ob-chip{padding:8px 16px;border-radius:20px;border:1.5px solid #E0E0E0;font-size:12px;color:var(--gray);cursor:pointer;transition:all .15s;background:#fff;}
+.ob-chip{padding:8px 16px;border-radius:20px;border:1px solid rgba(0,0,0,.1);font-size:12px;color:var(--gray);cursor:pointer;transition:all .15s;background:#fff;}
 .ob-chip.sel{border-color:var(--vi);background:var(--vi);color:#fff;}
 
 /* ─── 네비 헤더 ─────────────────────────── */
-.nav-hd{height:54px;display:flex;align-items:center;padding:0 18px;gap:12px;background:#fff;border-bottom:1px solid rgba(123,79,255,.07);flex-shrink:0;}
+.nav-hd{height:54px;display:flex;align-items:center;padding:0 18px;gap:12px;background:#fff;border-bottom:1px solid rgba(0,0,0,.06);flex-shrink:0;}
 .nav-back{font-size:22px;color:var(--ink);cursor:pointer;line-height:1;display:flex;align-items:center;}
 .nav-title{font-size:17px;font-weight:700;color:var(--ink);letter-spacing:-.3px;flex:1;}
 .nav-action{font-size:14px;color:var(--vi);font-weight:600;cursor:pointer;}
 
-/* ─── 메인 헤더 ─────────────────────────── */
-.main-hd{background:linear-gradient(160deg,var(--vi) 0%,var(--vi2) 100%);padding:14px 18px 18px;flex-shrink:0;position:relative;overflow:hidden;}
-.main-hd::before{content:'';position:absolute;top:-30px;right:-30px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.07);}
-.main-hd::after{content:'';position:absolute;bottom:-40px;left:20px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.04);}
-.main-hd-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;position:relative;z-index:1;}
-.main-logo{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.5px;}
-.main-bell{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;cursor:pointer;}
-.today-bar{background:rgba(255,255,255,.12);border-radius:12px;padding:11px 0;display:flex;align-items:center;justify-content:space-around;position:relative;z-index:1;}
-.today-item{text-align:center;}
-.today-num{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.5px;}
-.today-lbl{font-size:9px;color:rgba(255,255,255,.6);margin-top:1px;}
-.today-div{width:1px;height:30px;background:rgba(255,255,255,.18);}
+/* ─── 메인 헤더 (리디자인) ──────────────── */
+.main-hd{background:#fff;padding:12px 18px 0;flex-shrink:0;border-bottom:1px solid rgba(0,0,0,.06);}
+.main-hd-row{display:flex;align-items:center;justify-content:space-between;height:44px;}
+.main-logo{font-size:22px;font-weight:900;color:var(--ink);letter-spacing:-1px;}
+.main-logo span{color:var(--vi);}
+.main-hd-icons{display:flex;gap:4px;}
+.main-bell{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--ink);cursor:pointer;}
+/* today-bar 제거 → 홈 피드 상단 인라인 모듈로 대체 */
+.today-bar{display:none;}
+.today-item,.today-div,.today-num,.today-lbl{display:none;}
 
 /* ─── 피드 바디 ─────────────────────────── */
-.feed-body{background:var(--vb);padding:14px;display:flex;flex-direction:column;gap:16px;}
+.feed-body{background:var(--vb);padding:14px;display:flex;flex-direction:column;gap:20px;}
+
+/* ─── 홈 피드 리디자인 모듈 ─────────────── */
+
+/* 1. 히어로 배너 */
+.home-hero{border-radius:20px;overflow:hidden;position:relative;height:186px;cursor:pointer;flex-shrink:0;}
+.home-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;}
+.home-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,6,30,.88) 0%,rgba(10,6,30,.25) 60%,transparent 100%);}
+.home-hero-inner{position:absolute;bottom:0;left:0;right:0;padding:16px 18px;}
+.home-hero-label{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px;font-weight:600;}
+.home-hero-title{font-size:18px;font-weight:900;color:#fff;line-height:1.3;letter-spacing:-.5px;margin-bottom:9px;}
+.home-hero-meta{display:flex;align-items:center;gap:8px;}
+.home-hero-chip{font-size:11px;padding:3px 10px;border-radius:20px;background:var(--vi);color:#fff;font-weight:600;}
+.home-hero-count{font-size:11px;color:rgba(255,255,255,.45);}
+
+/* 2. 오늘 통계 바 */
+.home-stat-bar{display:flex;align-items:center;padding:16px 18px;background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,.06);}
+.home-stat-item{flex:1;text-align:center;}
+.home-stat-num{font-size:23px;font-weight:900;color:var(--ink);letter-spacing:-1px;line-height:1;}
+.home-stat-lbl{font-size:11px;color:var(--dim);margin-top:3px;font-weight:500;}
+.home-stat-div{width:1px;height:28px;background:rgba(123,79,255,.1);}
+
+/* 3. 카테고리 칩 바 (롱블랙식 컬러칩) */
+.home-cat-row{display:flex;gap:7px;overflow-x:auto;padding-bottom:1px;}
+.home-cat-row::-webkit-scrollbar{display:none;}
+.home-cat-chip{display:flex;align-items:center;gap:5px;padding:8px 14px;border-radius:22px;font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0;cursor:pointer;border:none;transition:all .15s;}
+.home-cat-chip.c1{background:#7B4FFF;color:#fff;}
+.home-cat-chip.c2{background:#F0F0F0;color:#444;}
+.home-cat-chip.c3{background:#F0F0F0;color:#444;}
+.home-cat-chip.c4{background:#F0F0F0;color:#444;}
+.home-cat-chip.c5{background:#F0F0F0;color:#444;}
+.home-cat-chip.c6{background:#F0F0F0;color:#444;}
+
+/* 4. 섹션 헤더 v2 */
+.sec-hd-v2{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;}
+.sec-title-v2{font-size:17px;font-weight:900;color:var(--ink);letter-spacing:-.5px;line-height:1.25;}
+.sec-title-v2 em{font-style:normal;color:var(--vi);}
+.sec-more-v2{font-size:11px;color:var(--dim);font-weight:500;cursor:pointer;}
+
+/* 5. 인기 질문 블록 */
+.hot-card-v2{background:#fff;border-radius:16px;overflow:hidden;}
+.hot-item-v2{display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border-bottom:1px solid rgba(0,0,0,.05);cursor:pointer;transition:background .12s;}
+.hot-item-v2:last-child{border-bottom:none;}
+.hot-item-v2:active{background:var(--vb);}
+.hot-rank{font-size:22px;font-weight:900;letter-spacing:-1.5px;line-height:1;min-width:22px;margin-top:1px;color:#DDD9FF;}
+.hot-rank.top{color:var(--ink);}
+.hot-item-txt{font-size:13px;font-weight:600;color:var(--ink);line-height:1.45;margin-bottom:5px;letter-spacing:-.2px;word-break:keep-all;}
+.hot-item-meta{display:flex;align-items:center;gap:7px;}
+.hot-item-tag{font-size:11px;padding:2px 8px;border-radius:8px;background:var(--vl);color:#5A32D6;font-weight:500;}
+.hot-item-cnt{font-size:11px;color:var(--dim);}
+
+/* 6. 개인화 알림 */
+.home-noti-banner{background:var(--ink);border-radius:16px;padding:13px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;}
+.home-noti-dot{width:8px;height:8px;border-radius:50%;background:#fff;flex-shrink:0;box-shadow:0 0 0 3px rgba(255,255,255,.25);}
+.home-noti-text{flex:1;}
+.home-noti-main{font-size:13px;font-weight:700;color:#fff;line-height:1.35;}
+.home-noti-sub{font-size:11px;color:rgba(255,255,255,.6);margin-top:1px;}
+.home-noti-arr{font-size:15px;color:rgba(255,255,255,.45);}
+
+/* 7. 새 질문 피드 - 무게 차등 */
+.qa-card-lg{background:#fff;border-radius:16px;padding:16px;border:1.5px solid rgba(123,79,255,.22);box-shadow:0 4px 20px rgba(123,79,255,.1);cursor:pointer;transition:transform .12s;}
+.qa-card-lg:active{transform:scale(.985);}
+.qa-card-sm{background:#fff;border-radius:16px;padding:13px 14px;border:1px solid rgba(0,0,0,.06);cursor:pointer;display:flex;align-items:flex-start;gap:12px;transition:background .12s;}
+.qa-card-sm:active{background:var(--vb);}
+.qa-card-sm-body{flex:1;}
+.qa-side-dot{width:7px;height:7px;border-radius:50%;background:var(--coral);flex-shrink:0;margin-top:5px;}
+.qa-side-dot.answered{background:#4CAF50;}
+.qa-sm-group{background:#fff;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;gap:0;}
+.qa-sm-group .qa-card-sm{border-radius:0;border:none;border-bottom:1px solid rgba(0,0,0,.05);}
+.qa-sm-group .qa-card-sm:last-child{border-bottom:none;}
+
+/* 8. 가로 스크롤 태그 랭킹 */
+.tag-rank-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;}
+.tag-rank-scroll::-webkit-scrollbar{display:none;}
+.tag-rank-card{flex-shrink:0;width:108px;background:#fff;border-radius:16px;padding:12px;cursor:pointer;border:1px solid rgba(0,0,0,.06);}
+.tag-rank-num{font-size:11px;font-weight:700;color:var(--dim);margin-bottom:4px;}
+.tag-rank-name{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;letter-spacing:-.2px;}
+.tag-rank-cnt{font-size:11px;color:var(--dim);}
+.tag-rank-bar{height:2px;border-radius:1px;background:var(--ink);margin-top:8px;opacity:.15;}
 
 /* ─── 칩 ────────────────────────────────── */
 .chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;}
 .chips::-webkit-scrollbar{display:none;}
-.chip{font-size:10.5px;font-weight:500;padding:7px 14px;border-radius:20px;border:1.2px solid #DDD9FF;color:var(--vi);background:#fff;white-space:nowrap;flex-shrink:0;cursor:pointer;box-shadow:0 1px 4px rgba(123,79,255,.06);transition:all .15s;}
-.chip.on{background:var(--vi);color:#fff;border-color:var(--vi);box-shadow:0 3px 10px rgba(123,79,255,.3);}
+.chip{font-size:11px;font-weight:500;padding:7px 14px;border-radius:20px;border:1px solid rgba(0,0,0,.1);color:var(--ink);background:#fff;white-space:nowrap;flex-shrink:0;cursor:pointer;transition:all .15s;}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink);}
 
 /* ─── 섹션 헤더 ─────────────────────────── */
 .sec-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
-.sec-title{font-size:14px;font-weight:700;color:var(--ink);letter-spacing:-.3px;}
-.sec-more{font-size:10.5px;color:var(--vi);font-weight:500;cursor:pointer;}
+.sec-title{font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.3px;}
+.sec-more{font-size:11px;color:var(--dim);font-weight:500;cursor:pointer;}
 
 /* ─── 콘텐츠 카드 ────────────────────────── */
-.content-card{border-radius:18px;padding:17px;position:relative;overflow:hidden;background:#1A1A1A;cursor:pointer;box-shadow:0 8px 24px rgba(26,26,26,.2);}
-.content-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.2;border-radius:18px;transition:opacity .3s;}
+.content-card{border-radius:20px;padding:17px;position:relative;overflow:hidden;background:#1A1A1A;cursor:pointer;box-shadow:0 8px 24px rgba(26,26,26,.2);}
+.content-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.2;border-radius:20px;transition:opacity .3s;}
 .content-card:hover .content-card-bg{opacity:.28;}
 .content-dot{position:absolute;top:-15px;right:-15px;width:80px;height:80px;border-radius:50%;background:var(--vi);opacity:.25;}
 .content-inner{position:relative;z-index:1;}
-.content-tag-lbl{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.08em;font-weight:500;margin-bottom:7px;text-transform:uppercase;}
+.content-tag-lbl{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.08em;font-weight:500;margin-bottom:7px;text-transform:uppercase;}
 .content-title{font-size:16px;font-weight:800;color:#fff;line-height:1.4;margin-bottom:10px;letter-spacing:-.4px;}
 .content-meta-row{display:flex;align-items:center;justify-content:space-between;}
-.content-sub{font-size:10px;color:rgba(255,255,255,.38);}
-.content-link{font-size:10px;color:#C4AEFF;font-weight:500;}
+.content-sub{font-size:11px;color:rgba(255,255,255,.38);}
+.content-link{font-size:11px;color:#C4AEFF;font-weight:500;}
 
+/* ─── 아바타 사이즈 업 ───────────────────── */
+.qa-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--vl),#C4AEFF);flex-shrink:0;overflow:hidden;}
+.qa-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;}
+.ans-avatar-lg{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--vl),#C4AEFF);flex-shrink:0;overflow:hidden;}
+.ans-avatar-lg img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;}
+
+/* ─── 이모지 반응 시스템 ─────────────────── */
+.emoji-react-wrap{position:relative;}
+.emoji-bar{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+.emoji-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 11px;border-radius:20px;background:var(--vb);border:1.5px solid transparent;font-size:14px;cursor:pointer;transition:all .18s;user-select:none;position:relative;}
+.emoji-btn span.cnt{font-size:11px;font-weight:700;color:var(--dim);}
+.emoji-btn.on{background:var(--vl);border-color:rgba(123,79,255,.25);}
+.emoji-btn.on span.cnt{color:var(--vi);}
+.emoji-btn:active{transform:scale(.9);}
+
+/* 이모지 팝업 선택창 */
+.emoji-picker-btn{width:32px;height:32px;border-radius:50%;background:var(--vb);border:1.5px solid rgba(123,79,255,.1);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:all .15s;flex-shrink:0;}
+.emoji-picker-btn:active{transform:scale(.88);}
+.emoji-popup{position:absolute;bottom:42px;left:0;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.14);padding:10px 12px;display:flex;gap:8px;z-index:100;opacity:0;pointer-events:none;transform:translateY(6px);transition:all .18s cubic-bezier(.4,0,.2,1);}
+.emoji-popup.open{opacity:1;pointer-events:all;transform:translateY(0);}
+.emoji-opt{font-size:22px;cursor:pointer;transition:transform .12s;padding:2px;}
+.emoji-opt:hover{transform:scale(1.3);}
+
+
+/* 아바타 이니셜 fallback */
+.qa-avatar{position:relative;}
+.qa-avatar::after{content:attr(data-initial);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#888;background:#EFEFEF;border-radius:50%;z-index:0;}
+.qa-avatar img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;}
+.qa-avatar img[src=""]{display:none;}
 /* ─── Q&A 카드 ───────────────────────────── */
 .qa-cards{display:flex;flex-direction:column;gap:9px;}
-.qa-card{background:#fff;border-radius:15px;padding:14px;border:1px solid rgba(123,79,255,.1);box-shadow:var(--card-shadow);cursor:pointer;transition:transform .15s,box-shadow .15s;}
+.qa-card{background:#fff;border-radius:16px;padding:14px;border:1px solid rgba(0,0,0,.06);box-shadow:var(--card-shadow);cursor:pointer;transition:transform .15s,box-shadow .15s;}
 .qa-card:active{transform:scale(.98);}
 .qa-card.featured{border:2px solid rgba(123,79,255,.4);box-shadow:0 6px 24px rgba(123,79,255,.16);}
 .qa-top{display:flex;align-items:center;gap:7px;margin-bottom:9px;}
-.qa-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--vl),#C4AEFF);flex-shrink:0;}
-.qa-badge{font-size:9.5px;font-weight:500;padding:3px 9px;border-radius:10px;background:var(--vl);color:#5A3DBF;}
-.qa-badge.dept{background:#F4F1FB;color:var(--gray);}
-.qa-ts{font-size:9px;color:var(--dim);margin-left:auto;}
-.qa-title{font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.5;margin-bottom:10px;letter-spacing:-.2px;word-break:keep-all;}
+.qa-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--vl),#C4AEFF);flex-shrink:0;overflow:hidden;object-fit:cover;}
+.qa-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;}
+.qa-badge{font-size:11px;font-weight:500;padding:3px 9px;border-radius:8px;background:#EFEFEF;color:#444;}
+.qa-badge.dept{background:#EFEFEF;color:#666;}
+.qa-ts{font-size:11px;color:var(--dim);margin-left:auto;}
+.qa-title{font-size:13px;font-weight:600;color:var(--ink);line-height:1.5;margin-bottom:10px;letter-spacing:-.2px;word-break:keep-all;}
 .qa-bot{display:flex;align-items:center;gap:7px;}
-.qa-cat{font-size:9.5px;padding:3px 9px;border-radius:8px;background:#F4F1FB;color:#9B90BE;font-weight:500;}
-.qa-ans{font-size:10px;color:var(--vi);margin-left:auto;font-weight:700;}
+.qa-cat{font-size:11px;padding:3px 9px;border-radius:8px;background:#EFEFEF;color:#666;font-weight:500;}
+.qa-ans{font-size:11px;color:#2E7D32;margin-left:auto;font-weight:700;}
 .qa-ans.none{color:var(--coral);}
 
 /* ─── FAB ────────────────────────────────── */
@@ -147,68 +489,68 @@ body{
 .fab:active{transform:scale(.93);}
 
 /* ─── 하단 탭 ───────────────────────────── */
-.botnav{height:74px;background:#fff;border-top:1px solid rgba(123,79,255,.08);display:flex;align-items:center;justify-content:space-around;padding:0 8px 10px;box-shadow:0 -4px 20px rgba(123,79,255,.06);flex-shrink:0;}
+.botnav{height:74px;background:#fff;border-top:1px solid rgba(0,0,0,.06);display:flex;align-items:center;justify-content:space-around;padding:0 8px 10px;box-shadow:0 -4px 20px rgba(123,79,255,.06);flex-shrink:0;}
 .botnav-item{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;cursor:pointer;padding-top:4px;}
-.boticon{width:34px;height:34px;border-radius:11px;background:var(--vb);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--dim);transition:all .2s;}
+.boticon{width:34px;height:34px;border-radius:12px;background:var(--vb);display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--dim);transition:all .2s;}
 .boticon.on{background:var(--vi);color:#fff;box-shadow:0 4px 12px rgba(123,79,255,.35);}
-.botlabel{font-size:9px;color:var(--dim);font-weight:500;transition:color .2s;}
+.botlabel{font-size:11px;color:var(--dim);font-weight:500;transition:color .2s;}
 .botlabel.on{color:var(--vi);font-weight:700;}
 
 /* ─── 탐색 ───────────────────────────────── */
-.search-wrap{background:#fff;border-radius:14px;border:2px solid var(--vi);padding:12px 15px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(123,79,255,.12);}
+.search-wrap{background:#F5F5F5;border-radius:16px;border:1.5px solid rgba(0,0,0,.08);padding:12px 15px;display:flex;align-items:center;gap:10px;}
 .search-wrap input{flex:1;border:none;outline:none;font-size:13px;color:var(--ink);font-family:inherit;background:transparent;}
 .search-wrap input::placeholder{color:var(--dim);}
-.search-icon{font-size:16px;color:var(--vi);}
+.search-icon{font-size:16px;color:var(--dim);}
 .content-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.tile{border-radius:14px;padding:14px;position:relative;overflow:hidden;}
+.tile{border-radius:16px;padding:14px;position:relative;overflow:hidden;}
 .tile.dark{background:#1A1A1A;box-shadow:0 6px 20px rgba(26,26,26,.2);}
-.tile.light{background:#fff;border:1px solid rgba(123,79,255,.1);box-shadow:var(--card-shadow);}
-.tile-dot{position:absolute;top:-10px;right:-10px;width:40px;height:40px;border-radius:50%;background:var(--vi);opacity:.3;}
-.tile-tag-s{font-size:9px;font-weight:500;letter-spacing:.05em;margin-bottom:5px;}
+.tile.light{background:#fff;border:1px solid rgba(0,0,0,.06);box-shadow:var(--card-shadow);}
+.tile-dot{position:absolute;top:-10px;right:-10px;width:40px;height:40px;border-radius:50%;background:var(--ink);opacity:.08;}
+.tile-tag-s{font-size:11px;font-weight:500;letter-spacing:.05em;margin-bottom:5px;}
 .tile-tag-s.w{color:rgba(255,255,255,.38);}
 .tile-tag-s.g{color:var(--dim);}
-.tile-title-s{font-size:11.5px;font-weight:700;line-height:1.4;margin-bottom:4px;word-break:keep-all;}
+.tile-title-s{font-size:12px;font-weight:700;line-height:1.4;margin-bottom:4px;word-break:keep-all;}
 .tile-title-s.w{color:#fff;}
 .tile-title-s.b{color:var(--ink);}
-.tile-meta-s{font-size:9px;}
+.tile-meta-s{font-size:11px;}
 .tile-meta-s.w{color:rgba(255,255,255,.3);}
 .tile-meta-s.g{color:var(--dim);}
 .tag-scroll{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;}
 .tag-scroll::-webkit-scrollbar{display:none;}
-.tag-chip{font-size:10.5px;font-weight:500;padding:7px 14px;border-radius:20px;border:1.2px solid #DDD9FF;color:var(--vi);background:#fff;white-space:nowrap;flex-shrink:0;cursor:pointer;box-shadow:0 1px 4px rgba(123,79,255,.06);transition:all .15s;}
-.tag-chip.on{background:var(--vi);color:#fff;border-color:var(--vi);box-shadow:0 3px 10px rgba(123,79,255,.3);}
-.channel-list{background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--card-shadow);}
-.ch-row{display:flex;align-items:center;gap:10px;padding:13px 15px;border-bottom:1px solid rgba(123,79,255,.05);cursor:pointer;transition:background .15s;}
+.tag-chip{font-size:11px;font-weight:500;padding:7px 14px;border-radius:20px;border:1px solid rgba(0,0,0,.1);color:var(--ink);background:#fff;white-space:nowrap;flex-shrink:0;cursor:pointer;transition:all .15s;}
+.tag-chip.on{background:var(--ink);color:#fff;border-color:var(--ink);}
+.channel-list{background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--card-shadow);}
+.ch-row{display:flex;align-items:center;gap:10px;padding:13px 15px;border-bottom:1px solid rgba(0,0,0,.05);cursor:pointer;transition:background .15s;}
 .ch-row:last-child{border-bottom:none;}
 .ch-row:active{background:var(--vb);}
-.ch-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--vl),#D9D2FF);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-.ch-name{font-size:12px;font-weight:600;color:var(--ink);flex:1;}
-.ch-meta{font-size:9.5px;color:#666;}
+.ch-icon{width:36px;height:36px;border-radius:8px;background:#F0F0F0;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.ch-name{font-size:13px;font-weight:600;color:var(--ink);flex:1;}
+.ch-meta{font-size:11px;color:#666;}
 .hot-list{display:flex;flex-direction:column;gap:8px;}
-.hot-row{background:#fff;border-radius:13px;padding:12px 14px;display:flex;align-items:flex-start;gap:9px;box-shadow:var(--card-shadow);border:1px solid rgba(123,79,255,.06);}
-.hot-num{font-size:14px;font-weight:800;color:var(--vi);width:16px;flex-shrink:0;letter-spacing:-.5px;}
-.hot-txt{font-size:11px;font-weight:500;color:var(--ink);line-height:1.45;flex:1;word-break:keep-all;}
-.hot-meta{font-size:9px;color:var(--dim);margin-top:3px;}
+.hot-row{background:#fff;border-radius:12px;padding:12px 14px;display:flex;align-items:flex-start;gap:9px;box-shadow:var(--card-shadow);border:1px solid rgba(0,0,0,.06);}
+.hot-num{font-size:14px;font-weight:800;color:var(--ink);width:16px;flex-shrink:0;letter-spacing:-.5px;}
+.hot-txt{font-size:13px;font-weight:500;color:var(--ink);line-height:1.45;flex:1;word-break:keep-all;}
+.hot-meta{font-size:11px;color:var(--dim);margin-top:3px;}
 
 /* ─── 질문 작성 ──────────────────────────── */
-.write-body{flex:1;padding:16px;background:var(--vb);display:flex;flex-direction:column;gap:12px;overflow-y:auto;}
+.write-body{flex:1;padding:16px;background:#fff;display:flex;flex-direction:column;gap:14px;overflow-y:auto;}
 .write-body::-webkit-scrollbar{display:none;}
-.write-section{background:#fff;border-radius:14px;padding:14px;box-shadow:var(--card-shadow);}
-.write-label{font-size:11px;font-weight:700;color:var(--vi);letter-spacing:.3px;margin-bottom:8px;}
+.write-section{background:#fff;border-radius:16px;padding:14px;box-shadow:var(--card-shadow);}
+.write-label{font-size:12px;font-weight:600;color:var(--dim);letter-spacing:.1px;margin-bottom:8px;}
 .write-input{width:100%;border:none;outline:none;font-size:13px;color:var(--ink);font-family:inherit;resize:none;line-height:1.6;background:transparent;}
 .write-input::placeholder{color:var(--dim);}
 .write-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px;}
-.write-chip{padding:7px 13px;border-radius:20px;border:1.2px solid #E0E0E0;font-size:11px;color:var(--gray);cursor:pointer;transition:all .15s;}
+.write-chip{padding:7px 13px;border-radius:20px;border:1px solid rgba(0,0,0,.1);font-size:12px;color:var(--gray);cursor:pointer;transition:all .15s;}
 .write-chip.sel{border-color:var(--vi);background:var(--vi);color:#fff;}
 .img-upload-zone{border:2px dashed var(--vl);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;position:relative;}
 .img-upload-zone:hover{border-color:var(--vi);background:var(--vl);}
-.img-preview{width:100%;border-radius:10px;object-fit:cover;display:none;}
+.img-preview{width:100%;border-radius:8px;object-fit:cover;display:none;}
 .img-placeholder{font-size:28px;margin-bottom:8px;}
 .img-text{font-size:12px;color:var(--dim);}
 .public-options{display:flex;flex-direction:column;gap:8px;}
-.pub-opt{display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;border:1.5px solid #EEE;cursor:pointer;transition:all .15s;}
+.pub-opt{display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;border:1px solid rgba(0,0,0,.08);cursor:pointer;transition:all .15s;}
 .pub-opt.sel{border-color:var(--vi);background:var(--vl);}
-.pub-opt-icon{width:40px;height:40px;border-radius:10px;background:var(--vb);display:flex;align-items:center;justify-content:center;font-size:20px;}
+.pub-opt-icon{width:40px;height:40px;border-radius:8px;background:var(--vb);display:flex;align-items:center;justify-content:center;font-size:20px;}
 .pub-opt-title{font-size:13px;font-weight:600;color:var(--ink);}
 .pub-opt-desc{font-size:11px;color:var(--dim);margin-top:2px;}
 .pub-radio{width:20px;height:20px;border-radius:50%;border:2px solid #DDD;margin-left:auto;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
@@ -216,21 +558,23 @@ body{
 .pub-opt.sel .pub-radio::after{content:'';width:8px;height:8px;background:#fff;border-radius:50%;}
 
 /* ─── 질문 상세 ──────────────────────────── */
-.detail-question{background:#fff;padding:18px;border-bottom:1px solid rgba(123,79,255,.07);}
+.detail-question{background:#fff;padding:18px;border-bottom:1px solid rgba(0,0,0,.06);}
 .detail-badges{display:flex;gap:7px;margin-bottom:12px;}
-.detail-badge{font-size:10px;font-weight:500;padding:4px 10px;border-radius:10px;background:var(--vl);color:#5A3DBF;}
+.detail-badge{font-size:11px;font-weight:500;padding:4px 10px;border-radius:8px;background:#EFEFEF;color:#444;}
 .detail-title{font-size:17px;font-weight:800;color:var(--ink);line-height:1.45;margin-bottom:10px;letter-spacing:-.4px;word-break:keep-all;}
 .detail-body{font-size:13px;color:var(--gray);line-height:1.7;margin-bottom:12px;}
-.detail-meta{font-size:11px;color:var(--dim);}
+.detail-meta{font-size:12px;color:var(--dim);}
 .detail-img{width:100%;border-radius:12px;margin-top:12px;object-fit:cover;}
 .answers-section{background:var(--vb);padding:14px;display:flex;flex-direction:column;gap:10px;}
-.answers-label{font-size:12px;font-weight:700;color:var(--gray);letter-spacing:.2px;}
-.answer-card{background:#fff;border-radius:13px;padding:13px;box-shadow:var(--card-shadow);}
+.answers-label{font-size:13px;font-weight:700;color:var(--dim);letter-spacing:.1px;}
+.answer-card{background:#fff;border-radius:12px;padding:13px;box-shadow:var(--card-shadow);}
 .ans-top{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
-.ans-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--vl),#C4AEFF);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--vi);}
-.ans-who{font-size:11px;font-weight:600;color:var(--ink);}
-.ans-ts{font-size:9.5px;color:var(--dim);margin-left:auto;}
-.ans-body{font-size:12.5px;color:var(--ink);line-height:1.7;margin-bottom:10px;word-break:keep-all;}
+.ans-avatar{width:40px;height:40px;border-radius:50%;background:#E8E8E8;flex-shrink:0;overflow:hidden;font-size:11px;font-weight:700;color:#555;display:flex;align-items:center;justify-content:center;}
+.ans-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;}
+.ans-avatar-lg{width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#E8E8E8;}
+.ans-who{font-size:12px;font-weight:600;color:var(--ink);}
+.ans-ts{font-size:11px;color:var(--dim);margin-left:auto;}
+.ans-body{font-size:13px;color:var(--ink);line-height:1.7;margin-bottom:10px;word-break:keep-all;}
 .ans-react{display:flex;gap:8px;}
 .react-btn{display:flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;background:var(--vb);font-size:11px;color:var(--gray);cursor:pointer;border:1px solid transparent;transition:all .15s;}
 .react-btn.on{background:var(--vl);color:var(--vi);border-color:rgba(123,79,255,.2);}
@@ -238,69 +582,69 @@ body{
 
 /* ─── 알림 ────────────────────────────────── */
 .noti-list{padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--vb);}
-.noti-card{background:#fff;border-radius:13px;padding:13px;display:flex;gap:12px;align-items:flex-start;box-shadow:var(--card-shadow);}
-.noti-icon{width:40px;height:40px;border-radius:12px;background:var(--vl);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.noti-card{background:#fff;border-radius:12px;padding:13px;display:flex;gap:12px;align-items:flex-start;box-shadow:var(--card-shadow);}
+.noti-icon{width:40px;height:40px;border-radius:12px;background:#F0F0F0;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
 .noti-content{flex:1;}
-.noti-title{font-size:12.5px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:4px;word-break:keep-all;}
-.noti-meta{font-size:10.5px;color:var(--dim);}
+.noti-title{font-size:13px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:4px;word-break:keep-all;}
+.noti-meta{font-size:11px;color:var(--dim);}
 .noti-dot{width:8px;height:8px;border-radius:50%;background:var(--vi);flex-shrink:0;margin-top:4px;}
 
 /* ─── 마이 ────────────────────────────────── */
-.profile-hd{background:#fff;padding:20px 18px 16px;flex-shrink:0;border-bottom:1px solid rgba(123,79,255,.07);}
+.profile-hd{background:#fff;padding:20px 18px 16px;flex-shrink:0;border-bottom:1px solid rgba(0,0,0,.06);}
 .profile-top{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
-.avatar-lg{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--vi),var(--vi2));box-shadow:0 4px 14px rgba(123,79,255,.35);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;flex-shrink:0;}
+.avatar-lg{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--vi),var(--vi2));box-shadow:0 4px 14px rgba(123,79,255,.35);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;flex-shrink:0;overflow:hidden;}
 .profile-name{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:5px;letter-spacing:-.4px;}
-.profile-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;padding:4px 10px;border-radius:10px;background:var(--vl);color:#5A3DBF;font-weight:500;}
-.profile-edit{margin-left:auto;font-size:10px;padding:6px 14px;border-radius:10px;border:1.5px solid var(--vl);color:var(--vi);font-weight:600;cursor:pointer;background:#fff;}
+.profile-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:4px 10px;border-radius:8px;background:#EFEFEF;color:#555;font-weight:500;}
+.profile-edit{margin-left:auto;font-size:11px;padding:6px 14px;border-radius:8px;border:1.5px solid var(--vl);color:var(--vi);font-weight:600;cursor:pointer;background:#fff;}
 .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .stat-card{border-radius:12px;padding:11px;text-align:center;}
 .stat-card.on{background:var(--vl);box-shadow:0 4px 14px rgba(123,79,255,.15);}
 .stat-card.off{background:var(--vb);}
-.stat-num{font-size:19px;font-weight:800;color:var(--vi);letter-spacing:-.5px;}
-.stat-lbl{font-size:9px;color:var(--dim);margin-top:2px;}
-.my-tabs{display:flex;background:#fff;border-bottom:1px solid rgba(123,79,255,.07);flex-shrink:0;}
-.my-tab{flex:1;text-align:center;padding:11px 0;font-size:11.5px;color:var(--dim);font-weight:500;cursor:pointer;transition:all .2s;}
+.stat-num{font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.5px;}
+.stat-lbl{font-size:11px;color:var(--dim);margin-top:2px;}
+.my-tabs{display:flex;background:#fff;border-bottom:1px solid rgba(0,0,0,.06);flex-shrink:0;}
+.my-tab{flex:1;text-align:center;padding:11px 0;font-size:12px;color:var(--dim);font-weight:500;cursor:pointer;transition:all .2s;}
 .my-tab.on{font-weight:700;color:var(--vi);border-bottom:2.5px solid var(--vi);}
 .my-body{flex:1;background:var(--vb);padding:14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;}
 .my-body::-webkit-scrollbar{display:none;}
-.sec-lbl{font-size:10px;font-weight:600;color:var(--dim);letter-spacing:.3px;}
-.my-q-card{background:#fff;border-radius:13px;padding:13px;box-shadow:var(--card-shadow);border:1px solid rgba(123,79,255,.08);}
+.sec-lbl{font-size:11px;font-weight:600;color:var(--dim);letter-spacing:.3px;}
+.my-q-card{background:#fff;border-radius:12px;padding:13px;box-shadow:var(--card-shadow);border:1px solid rgba(0,0,0,.06);}
 .my-q-card.featured{border:2px solid rgba(123,79,255,.38);box-shadow:0 6px 22px rgba(123,79,255,.14);}
-.my-q-label{font-size:9.5px;font-weight:600;color:var(--vi);margin-bottom:6px;letter-spacing:.3px;}
+.my-q-label{font-size:11px;font-weight:600;color:var(--vi);margin-bottom:6px;letter-spacing:.3px;}
 .my-q-label.red{color:var(--coral);}
-.my-q-title{font-size:12px;font-weight:600;color:var(--ink);line-height:1.5;margin-bottom:9px;letter-spacing:-.2px;}
+.my-q-title{font-size:13px;font-weight:600;color:var(--ink);line-height:1.5;margin-bottom:9px;letter-spacing:-.2px;}
 .my-q-bot{display:flex;align-items:center;gap:7px;}
-.my-q-status{font-size:9.5px;font-weight:500;padding:3px 9px;border-radius:8px;background:var(--vl);color:#5A3DBF;}
+.my-q-status{font-size:11px;font-weight:500;padding:3px 9px;border-radius:8px;background:#EFEFEF;color:#555;}
 .my-q-status.wait{background:#FFF0F0;color:var(--coral);}
-.my-q-ts{font-size:9.5px;color:var(--dim);margin-left:auto;}
+.my-q-ts{font-size:11px;color:var(--dim);margin-left:auto;}
 .list-card{background:#fff;border-radius:12px;box-shadow:var(--card-shadow);overflow:hidden;}
-.list-row{display:flex;align-items:center;gap:8px;padding:11px 14px;border-bottom:1px solid rgba(123,79,255,.04);}
+.list-row{display:flex;align-items:center;gap:8px;padding:11px 14px;border-bottom:1px solid rgba(0,0,0,.05);}
 .list-row:last-child{border-bottom:none;}
-.list-txt{font-size:11px;font-weight:500;color:var(--ink);flex:1;line-height:1.35;}
-.list-ans{font-size:10px;color:var(--vi);font-weight:700;white-space:nowrap;}
+.list-txt{font-size:13px;font-weight:500;color:var(--ink);flex:1;line-height:1.35;}
+.list-ans{font-size:11px;color:#2E7D32;font-weight:700;white-space:nowrap;}
 .list-ans.none{color:var(--coral);}
-.impact-bar{background:#fff;border-radius:14px;padding:13px;box-shadow:var(--card-shadow);display:flex;justify-content:space-around;align-items:center;border:1px solid rgba(123,79,255,.08);}
+.impact-bar{background:#fff;border-radius:16px;padding:13px;box-shadow:var(--card-shadow);display:flex;justify-content:space-around;align-items:center;border:1px solid rgba(0,0,0,.06);}
 .impact-item{text-align:center;}
-.impact-num{font-size:20px;font-weight:800;color:var(--vi);letter-spacing:-.5px;}
-.impact-lbl{font-size:9px;color:var(--dim);margin-top:2px;}
+.impact-num{font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.5px;}
+.impact-lbl{font-size:11px;color:var(--dim);margin-top:2px;}
 .impact-divider{width:1px;height:32px;background:var(--vl);}
-.ans-card-my{background:#fff;border-radius:13px;padding:13px;box-shadow:var(--card-shadow);border:1px solid rgba(123,79,255,.07);}
-.ans-origin{font-size:9.5px;color:var(--dim);margin-bottom:4px;font-weight:500;}
-.ans-q{font-size:10.5px;color:#9B90BE;margin-bottom:8px;line-height:1.4;}
-.ans-body-my{background:var(--vb);border-radius:9px;padding:9px 11px;margin-bottom:9px;font-size:11px;color:var(--ink);line-height:1.6;}
+.ans-card-my{background:#fff;border-radius:12px;padding:13px;box-shadow:var(--card-shadow);border:1px solid rgba(0,0,0,.06);}
+.ans-origin{font-size:11px;color:var(--dim);margin-bottom:4px;font-weight:500;}
+.ans-q{font-size:12px;color:#9B90BE;margin-bottom:8px;line-height:1.4;}
+.ans-body-my{background:var(--vb);border-radius:8px;padding:9px 11px;margin-bottom:9px;font-size:12px;color:var(--ink);line-height:1.6;}
 .ans-impact{display:flex;align-items:center;gap:9px;padding-top:8px;border-top:1px solid rgba(123,79,255,.06);}
-.impact-tag{display:flex;align-items:center;gap:4px;font-size:9.5px;color:var(--dim);}
-.impact-tag b{color:var(--vi);font-weight:700;}
+.impact-tag{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--dim);}
+.impact-tag b{color:var(--ink);font-weight:700;}
 .scrap-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.scrap-card{background:#fff;border-radius:13px;padding:12px;box-shadow:var(--card-shadow);border:1px solid rgba(123,79,255,.08);}
-.scrap-tag{font-size:9.5px;color:var(--vi);font-weight:500;margin-bottom:5px;}
-.scrap-title{font-size:11px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:5px;}
-.scrap-meta{font-size:9px;color:var(--dim);}
-.scrap-more{background:var(--vl);border-radius:13px;padding:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-direction:column;gap:4px;}
+.scrap-card{background:#fff;border-radius:12px;padding:12px;box-shadow:var(--card-shadow);border:1px solid rgba(0,0,0,.06);}
+.scrap-tag{font-size:11px;color:var(--dim);font-weight:500;margin-bottom:5px;}
+.scrap-title{font-size:13px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:5px;}
+.scrap-meta{font-size:11px;color:var(--dim);}
+.scrap-more{background:#F0F0F0;border-radius:12px;padding:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-direction:column;gap:4px;}
 
 /* ─── 라벨 ─────────────────────────────── */
-.submit-bar{padding:14px 16px;background:#fff;border-top:1px solid rgba(123,79,255,.07);flex-shrink:0;}
-.submit-btn{width:100%;padding:15px;background:var(--vi);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(123,79,255,.3);transition:opacity .15s;font-family:inherit;}
+.submit-bar{padding:14px 16px;background:#fff;border-top:1px solid rgba(0,0,0,.06);flex-shrink:0;}
+.submit-btn{width:100%;padding:15px;background:var(--vi);color:#fff;border:none;border-radius:16px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(123,79,255,.3);transition:opacity .15s;font-family:inherit;}
 .submit-btn:active{opacity:.85;}
 .submit-btn.secondary{background:#fff;color:var(--vi);border:1.5px solid var(--vl);box-shadow:none;}
 </style>
@@ -319,6 +663,14 @@ body{
           <div style="font-size:60px;font-weight:800;color:var(--ink);letter-spacing:-1.5px;line-height:.85;">Free<span style="color:var(--vi);">?</span></div>
           <div style="font-size:60px;font-weight:800;color:var(--ink);letter-spacing:-1.5px;line-height:.85;">Major<span style="color:var(--vi);">!</span></div>
         </div>
+        <!-- 도트 패턴 장식 -->
+        <div style="display:flex;gap:6px;justify-content:center;margin-bottom:20px;">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--vi);opacity:.3;"></div>
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--vi);opacity:.6;"></div>
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--vi);"></div>
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--vi);opacity:.6;"></div>
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--vi);opacity:.3;"></div>
+        </div>
         <div style="font-size:13px;color:var(--dim);text-align:center;line-height:1.5;">전공 질문, 이제 망설이지 마세요</div>
       </div>
       <!-- 버튼 영역 — 하단에 모아두기 -->
@@ -334,10 +686,89 @@ body{
   <!-- ══════════════ OB02 서비스 소개 ══════════════ -->
   <div class="screen" id="s-ob02">
     <div class="ob-wrap">
-      <div class="ob-steps"><div class="step on"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
-      <div class="ob-illust"><i class="ti ti-messages" style="font-size:64px;color:var(--vi);opacity:.7;position:relative;z-index:1;"></i></div>
+      <div class="ob-steps"><div class="step on"></div><div class="step"></div><div class="step"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
+      <div class="ob-illust" style="background-image:url('ob_illust_02.jpg');background-size:cover;background-position:center;"></div>
       <div class="ob-title">선배와 바로 연결</div>
-      <div class="ob-desc">전공·학년 맞춤, 답변 보장</div>
+      <div class="ob-desc">전공·학년 맞춤으로<br>진짜 답변을 받아보세요</div>
+      <button class="ob-btn" onclick="goTo('s-ob02b')">다음</button>
+      <div class="ob-skip" onclick="goTo('s-home')">건너뛰기</div>
+    </div>
+    <div class="homeind"><div class="homeind-bar"></div></div>
+  </div>
+
+  <!-- ══════════════ OB02b 익명 보장 ══════════════ -->
+  <div class="screen" id="s-ob02b">
+    <div class="ob-wrap">
+      <div class="ob-steps"><div class="step on"></div><div class="step on"></div><div class="step"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
+      <div class="ob-illust" style="background:#F0EDF9;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;">
+        <div style="width:72px;height:72px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(123,79,255,.12);"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7B4FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <div style="display:flex;flex-direction:column;gap:8px;width:100%;padding:0 20px;">
+          <div style="background:#fff;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+            <div style="width:32px;height:32px;background:#F0EDF9;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:var(--ink);">학년만 표시돼요</div>
+              <div style="font-size:10px;color:var(--dim);">이름·학번은 절대 공개 안 돼요</div>
+            </div>
+          </div>
+          <div style="background:#fff;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+            <div style="width:32px;height:32px;background:#F0EDF9;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 10-10-8L2 10v10a1 1 0 0 0 1 1h6v-6h6v6h6a1 1 0 0 0 1-1z"/></svg></div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:var(--ink);">같은 학교 선배만 볼 수 있어요</div>
+              <div style="font-size:10px;color:var(--dim);">학교 이메일로 인증된 사람만 접근</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ob-title">완전히 익명으로<br>망설임 없이</div>
+      <div class="ob-desc">누가 물어봤는지 아무도 몰라요.<br>편하게 뭐든 물어보세요</div>
+      <button class="ob-btn" onclick="goTo('s-ob02c')">다음</button>
+      <div class="ob-skip" onclick="goTo('s-home')">건너뛰기</div>
+    </div>
+    <div class="homeind"><div class="homeind-bar"></div></div>
+  </div>
+
+  <!-- ══════════════ OB02c 답변자 보상 ══════════════ -->
+  <div class="screen" id="s-ob02c">
+    <div class="ob-wrap">
+      <div class="ob-steps"><div class="step on"></div><div class="step on"></div><div class="step on"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
+      <div class="ob-illust" style="background:#1A1A1A;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:24px;">
+        <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.06em;margin-bottom:4px;">답변할수록 쌓여요</div>
+        <div style="display:flex;gap:8px;justify-content:center;">
+          <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:12px 14px;text-align:center;min-width:72px;">
+            <div style="display:flex;align-items:center;justify-content:center;height:36px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+            <div style="font-size:11px;font-weight:700;color:#fff;margin-top:4px;">뱃지</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.4);">답변 5개~</div>
+          </div>
+          <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:12px 14px;text-align:center;min-width:72px;">
+            <div style="display:flex;align-items:center;justify-content:center;height:36px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
+            <div style="font-size:11px;font-weight:700;color:#fff;margin-top:4px;">명예의 전당</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.4);">주간 TOP 10</div>
+          </div>
+          <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:12px 14px;text-align:center;min-width:72px;">
+            <div style="display:flex;align-items:center;justify-content:center;height:36px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div style="font-size:11px;font-weight:700;color:#fff;margin-top:4px;">포인트</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.4);">답변마다 +5</div>
+          </div>
+        </div>
+        <div style="background:var(--vi);border-radius:12px;padding:10px 16px;width:100%;text-align:center;">
+          <div style="font-size:12px;font-weight:700;color:#fff;">선배의 한마디가 누군가의 전공생활을 바꿔요</div>
+        </div>
+      </div>
+      <div class="ob-title">답변할수록<br>인정받아요</div>
+      <div class="ob-desc">뱃지·포인트·명예의 전당으로<br>나의 기여가 기록돼요</div>
+      <button class="ob-btn" onclick="goTo('s-ob03')">시작하기</button>
+      <div class="ob-skip" onclick="goTo('s-home')">건너뛰기</div>
+    </div>
+    <div class="homeind"><div class="homeind-bar"></div></div>
+  </div>
+
+  <!-- OB02 placeholder (replaced above) -->
+  <div class="screen" id="s-ob02-unused" style="display:none;">
+    <div class="ob-wrap">
+      <div class="ob-steps"><div class="step on"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
+      <div class="ob-illust" style="background-image:url('ob_illust_02.jpg');background-size:cover;background-position:center;"></div>
+      <div class="ob-title">선배와 바로 연결</div>
+      <div class="ob-desc">전공·학년 맞춤으로<br>진짜 답변을 받아보세요</div>
       <button class="ob-btn" onclick="goTo('s-ob03')">다음</button>
       <div class="ob-skip" onclick="goTo('s-home')">건너뛰기</div>
     </div>
@@ -347,7 +778,7 @@ body{
   <!-- ══════════════ OB03 학교 선택 ══════════════ -->
   <div class="screen" id="s-ob03">
     <div class="nav-hd" style="border-bottom:none;">
-      <span class="nav-back" onclick="goBack()"><i class="ti ti-arrow-left"></i></span>
+      <span class="nav-back" onclick="goBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
       <span class="nav-title">학교 선택</span>
     </div>
     <div class="ob-wrap" style="padding-top:8px;">
@@ -355,11 +786,42 @@ body{
       <div class="ob-label">재학 중인 학교</div>
       <input class="ob-input" type="text" placeholder="학교명 검색">
       <div class="ob-schools">
-        <div class="ob-school-row" onclick="selectSchool(this)">서울시립대학교</div>
-        <div class="ob-school-row" onclick="selectSchool(this)">서울대학교</div>
-        <div class="ob-school-row" onclick="selectSchool(this)">홍익대학교</div>
-        <div class="ob-school-row" onclick="selectSchool(this)">국민대학교</div>
-        <div class="ob-school-row" onclick="selectSchool(this)">이화여자대학교</div>
+
+        <div class="ob-school-row" onclick="selectSchool(this)">
+          <div class="ob-school-logo-wrap">
+            <img src="logo_uos.png" alt="" class="ob-school-logo">
+          </div>
+          <span>서울시립대학교</span>
+        </div>
+
+        <div class="ob-school-row" onclick="selectSchool(this)">
+          <div class="ob-school-logo-wrap">
+            <img src="logo_snu.png" alt="" class="ob-school-logo">
+          </div>
+          <span>서울대학교</span>
+        </div>
+
+        <div class="ob-school-row" onclick="selectSchool(this)">
+          <div class="ob-school-logo-wrap">
+            <img src="logo_hongik.png" alt="" class="ob-school-logo">
+          </div>
+          <span>홍익대학교</span>
+        </div>
+
+        <div class="ob-school-row" onclick="selectSchool(this)">
+          <div class="ob-school-logo-wrap">
+            <img src="logo_kookmin.png" alt="" class="ob-school-logo">
+          </div>
+          <span>국민대학교</span>
+        </div>
+
+        <div class="ob-school-row" onclick="selectSchool(this)">
+          <div class="ob-school-logo-wrap">
+            <img src="logo_ewha.png" alt="" class="ob-school-logo">
+          </div>
+          <span>이화여자대학교</span>
+        </div>
+
       </div>
       <div style="flex:1;"></div>
       <button class="ob-btn" onclick="goTo('s-ob04')" style="margin-top:16px;">다음</button>
@@ -370,7 +832,7 @@ body{
   <!-- ══════════════ OB04 이메일 인증 ══════════════ -->
   <div class="screen" id="s-ob04">
     <div class="nav-hd" style="border-bottom:none;">
-      <span class="nav-back" onclick="goBack()"><i class="ti ti-arrow-left"></i></span>
+      <span class="nav-back" onclick="goBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
       <span class="nav-title">학교 인증</span>
     </div>
     <div class="ob-wrap" style="padding-top:8px;">
@@ -388,7 +850,7 @@ body{
   <!-- ══════════════ OB05 전공 설정 ══════════════ -->
   <div class="screen" id="s-ob05">
     <div class="nav-hd" style="border-bottom:none;">
-      <span class="nav-back" onclick="goBack()"><i class="ti ti-arrow-left"></i></span>
+      <span class="nav-back" onclick="goBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
       <span class="nav-title">전공 설정</span>
     </div>
     <div class="ob-wrap" style="padding-top:8px;">
@@ -462,226 +924,414 @@ body{
     <div class="homeind" style="position:absolute;bottom:0;left:0;right:0;"><div class="homeind-bar"></div></div>
   </div>
 
-  <!-- ══════════════ 홈 ══════════════ -->
+  <!-- ══════════════ 홈 (리디자인 v2) ══════════════ -->
   <div class="screen" id="s-home">
-    <div class="main-hd">
+
+    <!-- 헤더: Threads식 — 클린, 타이포 중심 -->
+    <div class="main-hd" id="main-hd">
       <div class="main-hd-row">
-        <span class="main-logo">FreeMajor</span>
-        <div class="main-bell" onclick="setTab('notifications')"><i class="ti ti-bell"></i></div>
-      </div>
-      <div class="today-bar">
-        <div class="today-item"><div class="today-num" id="home-q-count">23</div><div class="today-lbl">오늘 새 질문</div></div>
-        <div class="today-div"></div>
-        <div class="today-item"><div class="today-num">47</div><div class="today-lbl">답변 달림</div></div>
-        <div class="today-div"></div>
-        <div class="today-item"><div class="today-num">8</div><div class="today-lbl">새 콘텐츠</div></div>
+        <span class="main-logo">Free<span>Major</span></span>
+        <div class="main-hd-icons">
+          <div class="main-bell" onclick="setTab('explore')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+          <div class="main-bell" onclick="setTab('notifications')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        </div>
       </div>
     </div>
+
     <div class="scroll-body">
       <div class="feed-body">
 
-        <!-- 검색 -->
-        <div style="background:#fff;border-radius:14px;border:1.5px solid var(--vl);padding:11px 14px;display:flex;align-items:center;gap:9px;box-shadow:0 2px 8px rgba(123,79,255,.06);" onclick="setTab('explore')">
-          <i class="ti ti-search" style="font-size:16px;color:var(--dim);"></i>
-          <span style="font-size:13px;color:var(--dim);flex:1;">질문·답변·키워드 검색</span>
+        <!-- ① 히어로 배너 ─ 풀블리드 이미지 (롱블랙 참고) -->
+        <!--
+          ★ MIDJOURNEY IMAGE SLOT
+          prompt: "risograph printed design college studio, korean students working at desks, warm low-angle light, violet purple color cast, grain texture, editorial magazine photography, --ar 16:9 --style raw --v 6"
+          → 생성 후 아래 background-image URL에 교체
+        -->
+        <div class="home-hero" onclick="goTo('s-content-detail')">
+          <div class="home-hero-bg" style="background-image:url('hero_home.jpg');background-color:#2D1B69;"></div>
+          <div class="home-hero-overlay"></div>
+          <!-- 그래픽 장식 (이미지 없을 때 시각 보조) -->
+          <div style="position:absolute;top:16px;right:18px;width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.06);"></div>
+          <div style="position:absolute;top:32px;right:34px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.05);"></div>
+          <div style="position:absolute;top:-10px;left:60%;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.04);"></div>
+          <div class="home-hero-inner">
+            <div class="home-hero-label">이번 주 에디터 픽</div>
+            <div class="home-hero-title">프린트룸 지기가 알려주는<br>형광 vs 리소 완벽 정리</div>
+            <div class="home-hero-meta">
+              <span class="home-hero-chip">#재료·도구</span>
+              <span class="home-hero-count">47명이 물어봤어요</span>
+            </div>
+          </div>
         </div>
 
-        <!-- 개인화 알림 -->
-        <div style="background:#fff;border-radius:14px;padding:13px 14px;display:flex;align-items:center;gap:12px;border:1.5px solid rgba(123,79,255,.2);box-shadow:0 4px 16px rgba(123,79,255,.1);" onclick="goTo('s-qdetail')">
-          <div style="width:38px;height:38px;border-radius:11px;background:var(--vl);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <i class="ti ti-message-circle" style="font-size:18px;color:var(--vi);"></i>
+        <!-- ② 오늘 현황 통계 바 (Threads 여백감) -->
+        <div class="home-stat-bar">
+          <div class="home-stat-item">
+            <div class="home-stat-num" id="home-q-count">23</div>
+            <div class="home-stat-lbl">오늘 새 질문</div>
           </div>
-          <div style="flex:1;">
-            <div style="font-size:12.5px;font-weight:600;color:var(--ink);margin-bottom:2px;">내 질문에 새 답변이 달렸어요</div>
-            <div style="font-size:10.5px;color:var(--dim);">형광 프린트 vs 리소, 제출용으로...</div>
+          <div class="home-stat-div"></div>
+          <div class="home-stat-item">
+            <div class="home-stat-num">47</div>
+            <div class="home-stat-lbl">달린 답변</div>
           </div>
-          <i class="ti ti-chevron-right" style="font-size:14px;color:var(--dim);"></i>
+          <div class="home-stat-div"></div>
+          <div class="home-stat-item">
+            <div class="home-stat-num">312</div>
+            <div class="home-stat-lbl">활동 중인 선배</div>
+          </div>
         </div>
 
-        <!-- 질문 카테고리 분기 -->
+        <!-- ③ 카테고리 분기 칩 (롱블랙 컬러칩) -->
         <div>
-          <div class="sec-hd" style="margin-bottom:10px;"><span class="sec-title">어떤 질문인가요?</span></div>
-          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
-            <div style="background:#fff;border-radius:13px;padding:13px;display:flex;align-items:center;gap:10px;border:1px solid rgba(123,79,255,.1);box-shadow:var(--card-shadow);cursor:pointer;" onclick="selectCat('#재료·도구')">
-              <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--vi),var(--vi2));display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="ti ti-palette" style="font-size:17px;color:#fff;"></i></div>
-              <div><div style="font-size:12px;font-weight:600;color:var(--ink);">재료·도구</div><div style="font-size:9.5px;color:var(--dim);">234개 질문</div></div>
-            </div>
-            <div style="background:#fff;border-radius:13px;padding:13px;display:flex;align-items:center;gap:10px;border:1px solid rgba(123,79,255,.1);box-shadow:var(--card-shadow);cursor:pointer;" onclick="selectCat('#공모전')">
-              <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#1A1A1A,#333);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="ti ti-trophy" style="font-size:17px;color:#fff;"></i></div>
-              <div><div style="font-size:12px;font-weight:600;color:var(--ink);">공모전</div><div style="font-size:9.5px;color:var(--dim);">89개 질문</div></div>
-            </div>
-            <div style="background:#fff;border-radius:13px;padding:13px;display:flex;align-items:center;gap:10px;border:1px solid rgba(123,79,255,.1);box-shadow:var(--card-shadow);cursor:pointer;" onclick="selectCat('#툴·소프트웨어')">
-              <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#5A32D6,#3D1FA8);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="ti ti-cpu" style="font-size:17px;color:#fff;"></i></div>
-              <div><div style="font-size:12px;font-weight:600;color:var(--ink);">툴·소프트웨어</div><div style="font-size:9.5px;color:var(--dim);">112개 질문</div></div>
-            </div>
-            <div style="background:#fff;border-radius:13px;padding:13px;display:flex;align-items:center;gap:10px;border:1px solid rgba(123,79,255,.1);box-shadow:var(--card-shadow);cursor:pointer;" onclick="selectCat('#수업·과제')">
-              <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#FF6B6B,#E04444);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="ti ti-pencil" style="font-size:17px;color:#fff;"></i></div>
-              <div><div style="font-size:12px;font-weight:600;color:var(--ink);">수업·과제</div><div style="font-size:9.5px;color:var(--dim);">67개 질문</div></div>
-            </div>
+          <div class="sec-hd-v2" style="margin-bottom:10px;">
+            <span class="sec-title-v2">어떤 질문인가요?</span>
+          </div>
+          <div class="home-cat-row">
+            <button class="home-cat-chip c1" onclick="selectCat('#재료·도구')"><i class="ti ti-palette" style="font-size:12px;"></i> 재료·도구</button>
+            <button class="home-cat-chip c6" onclick="selectCat('#공모전')"><i class="ti ti-trophy" style="font-size:12px;"></i> 공모전</button>
+            <button class="home-cat-chip c6" onclick="selectCat('#툴·소프트웨어')"><i class="ti ti-cpu" style="font-size:12px;"></i> 툴·소프트웨어</button>
+            <button class="home-cat-chip c6" onclick="selectCat('#수업·과제')"><i class="ti ti-pencil" style="font-size:12px;"></i> 수업·과제</button>
+            <button class="home-cat-chip c6" onclick="selectCat('#진로·취업')"><i class="ti ti-briefcase" style="font-size:12px;"></i> 진로·취업</button>
+            <button class="home-cat-chip c6" onclick="selectCat('#기타')"><i class="ti ti-dots" style="font-size:12px;"></i> 기타</button>
           </div>
         </div>
 
-        <!-- 이번 주 콘텐츠 -->
-        <div>
-          <div class="sec-hd"><span class="sec-title">이번 주 콘텐츠</span><span class="sec-more" onclick="setTab('explore')">전체보기</span></div>
-          <div class="content-card" onclick="goTo('s-content-detail')">
-            <div class="content-card-bg" id="content-bg" style="background-image:url('콘텐츠_형광리소.jpg'),url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=60');" ></div>
-            <div class="content-dot"></div>
-            <div class="content-inner">
-              <div class="content-tag-lbl">재료 · 도구</div>
-              <div class="content-title">프린트룸 지기가 알려주는<br>형광 vs 리소 완벽 정리</div>
-              <div class="content-meta-row">
-                <span class="content-sub">47명이 물어봤어요</span>
-                <span class="content-link">자세히 보기</span>
+        <!-- ④ 개인화 알림 배너 (퍼플, 임팩트 있게) -->
+        <div class="home-noti-banner" onclick="goTo('s-qdetail')">
+          <div class="home-noti-dot"></div>
+          <div class="home-noti-text">
+            <div class="home-noti-main">새 답변 1개 도착</div>
+            <div class="home-noti-sub">형광 프린트 vs 리소, 제출용으로...</div>
+          </div>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </div>
+
+        <!-- ④ 광고 배너 (실제 앱 디테일) -->
+        <div class="ad-banner" onclick="null">
+          <div class="ad-thumb">
+            <img src="ad_thumb_printroom.jpg" alt="">
+            <!-- ★ 이미지: ad_thumb_printroom.jpg — 프린트룸/인쇄소 관련 사진 (52×52px) -->
+          </div>
+          <div class="ad-body">
+            <div class="ad-label">스폰서</div>
+            <div class="ad-title">리소그래피 입문 클래스</div>
+            <div class="ad-sub">디자인 학생 30% 할인 중</div>
+          </div>
+          <div class="ad-cta">보러가기</div>
+        </div>
+
+        <!-- ⑤ 이번 주 많이 물어봤어요 -->
+        <div class="card-enter">
+          <div class="sec-hd-v2">
+            <span class="sec-title-v2">시각디자인에서<br><em>지금 뜨는 질문</em></span>
+            <span class="sec-more-v2" onclick="setTab('explore')">전체보기</span>
+          </div>
+          <div class="hot-card-v2">
+            <div class="hot-item-v2" onclick="goTo('s-qdetail')">
+              <div class="hot-rank top">1</div>
+              <div style="flex:1;">
+                <div class="hot-item-txt">형광 프린트 vs 리소, 제출용으로 어떤 게 나을까요?</div>
+                <div class="hot-item-meta"><span class="hot-item-tag">#재료·도구</span><span class="hot-item-cnt">47명 · 💬 3</span></div>
+              </div>
+            </div>
+            <div class="hot-item-v2" onclick="goTo('s-qdetail')">
+              <div class="hot-rank top">2</div>
+              <div style="flex:1;">
+                <div class="hot-item-txt">공모전 포트폴리오에 넣기 제일 좋은 작업 유형이 뭐예요?</div>
+                <div class="hot-item-meta"><span class="hot-item-tag">#공모전</span><span class="hot-item-cnt">32명 · 💬 5</span></div>
+              </div>
+            </div>
+            <div class="hot-item-v2" onclick="goTo('s-qdetail')">
+              <div class="hot-rank">3</div>
+              <div style="flex:1;">
+                <div class="hot-item-txt">졸업작품 어도비 라이선스 학교 서버 쓰는 방법 알려주세요</div>
+                <div class="hot-item-meta"><span class="hot-item-tag">#툴·소프트웨어</span><span class="hot-item-cnt">19명 · 💬 2</span></div>
+              </div>
+            </div>
+            <div class="hot-item-v2" onclick="goTo('s-qdetail')">
+              <div class="hot-rank">4</div>
+              <div style="flex:1;">
+                <div class="hot-item-txt">타이포 수업 레터프레스 인쇄 외부 업체 쓸 수 있나요?</div>
+                <div class="hot-item-meta"><span class="hot-item-tag">#수업·과제</span><span class="hot-item-cnt">14명 · 💬 1</span></div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- 인기 태그 -->
+        <!-- ⑥ 태그 랭킹 — 가로 스크롤 (블라인드 트렌딩 키워드 참고) -->
         <div>
-          <div class="sec-hd" style="margin-bottom:10px;"><span class="sec-title">인기 태그</span></div>
-          <div class="chips">
-            <div class="chip on">#재료·도구</div>
-            <div class="chip">#공모전</div>
-            <div class="chip">#툴·소프트웨어</div>
-            <div class="chip">#진로·취업</div>
-            <div class="chip">#수업·과제</div>
+          <div class="sec-hd-v2" style="margin-bottom:10px;">
+            <span class="sec-title-v2">이번 주 <em>태그 랭킹</em></span>
           </div>
-        </div>
-
-        <!-- 이번 주 많이 물어봤어요 -->
-        <div>
-          <div class="sec-hd" style="margin-bottom:10px;"><span class="sec-title">이번 주 많이 물어봤어요</span><span class="sec-more" onclick="setTab('explore')">전체보기</span></div>
-          <div class="hot-list">
-            <div class="hot-row" onclick="goTo('s-qdetail')"><div class="hot-num">1</div><div><div class="hot-txt">형광 프린트 vs 리소, 어떤 게 나을까요?</div><div class="hot-meta">#재료·도구 · 47명</div></div></div>
-            <div class="hot-row" onclick="goTo('s-qdetail')"><div class="hot-num">2</div><div><div class="hot-txt">공모전 포트폴리오에 넣기 좋은 작업</div><div class="hot-meta">#공모전 · 32명</div></div></div>
-          </div>
-        </div>
-
-        <!-- 새 질문 -->
-        <div>
-          <div class="sec-hd"><span class="sec-title">새 질문</span><span class="sec-more" onclick="setTab('explore')">전체보기</span></div>
-          <div class="qa-cards" id="home-feed">
-            <div class="qa-card featured" onclick="goTo('s-qdetail')">
-              <div class="qa-top">
-                <div class="qa-avatar"></div>
-                <span class="qa-badge">시디 4학년</span>
-                <span class="qa-badge dept">#재료·도구</span>
-                <span class="qa-ts">2분 전</span>
-              </div>
-              <div class="qa-title">학교 레이저 커터 예약 시스템 어떻게 쓰는지 아시는 분 계신가요?</div>
-              <div class="qa-bot"><span class="qa-cat">#툴·장비</span><span class="qa-ans none">아직 답변 없음</span></div>
+          <div class="tag-rank-scroll">
+            <div class="tag-rank-card">
+              <div class="tag-rank-num">🔥 1위</div>
+              <div class="tag-rank-name">#재료·도구</div>
+              <div class="tag-rank-cnt">질문 234개</div>
+              <div class="tag-rank-bar" style="width:100%;"></div>
             </div>
-            <div class="qa-card" onclick="goTo('s-qdetail')">
-              <div class="qa-top">
-                <div class="qa-avatar"></div>
-                <span class="qa-badge">시디 3학년</span>
-                <span class="qa-ts">15분 전</span>
-              </div>
-              <div class="qa-title">형광 프린트 vs 리소, 제출용으로 어떤 게 나을까요?</div>
-              <div class="qa-bot"><span class="qa-cat">#재료·도구</span><span class="qa-ans">답변 3</span></div>
+            <div class="tag-rank-card">
+              <div class="tag-rank-num">2위</div>
+              <div class="tag-rank-name">#툴·소프트웨어</div>
+              <div class="tag-rank-cnt">질문 112개</div>
+              <div class="tag-rank-bar" style="width:78%;"></div>
+            </div>
+            <div class="tag-rank-card">
+              <div class="tag-rank-num">3위</div>
+              <div class="tag-rank-name">#공모전</div>
+              <div class="tag-rank-cnt">질문 89개</div>
+              <div class="tag-rank-bar" style="width:60%;"></div>
+            </div>
+            <div class="tag-rank-card">
+              <div class="tag-rank-num">4위</div>
+              <div class="tag-rank-name">#진로·취업</div>
+              <div class="tag-rank-cnt">질문 67개</div>
+              <div class="tag-rank-bar" style="width:46%;"></div>
+            </div>
+            <div class="tag-rank-card">
+              <div class="tag-rank-num">5위</div>
+              <div class="tag-rank-name">#수업·과제</div>
+              <div class="tag-rank-cnt">질문 54개</div>
+              <div class="tag-rank-bar" style="width:36%;"></div>
             </div>
           </div>
         </div>
+
+        <!-- ⑦ 새 질문 — 무게 차등 모듈 -->
+        <div>
+          <div class="sec-hd-v2">
+            <span style="font-size:13px;font-weight:600;color:var(--dim);">방금 올라온 질문</span>
+            <span class="sec-more-v2" onclick="setTab('explore')">전체보기</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;" id="home-feed">
+
+            <!-- 대형 카드 (featured) -->
+            <div class="qa-card-lg card-enter" onclick="goTo('s-qdetail')">
+              <div class="qa-top" style="margin-bottom:12px;align-items:center;">
+                <div class="qa-avatar" data-initial="시"><img src="avatar_01.jpg" alt=""></div>
+                <div style="flex:1;margin-left:10px;">
+                  <div style="font-size:13px;font-weight:700;color:var(--ink);">시디 4학년</div>
+                  <div style="font-size:11px;color:var(--dim);margin-top:1px;">2분 전</div>
+                </div>
+                <span class="qa-badge dept" style="font-size:11px;">#툴·장비</span>
+              </div>
+              <div style="font-size:14px;font-weight:700;color:var(--ink);line-height:1.45;margin-bottom:12px;letter-spacing:-.3px;word-break:keep-all;">학교 레이저 커터 예약 시스템 어떻게 쓰는지 아시는 분 계신가요?</div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                <span style="font-size:11px;padding:4px 10px;border-radius:8px;background:#FFF0F0;color:var(--coral);font-weight:600;">아직 답변 없음</span>
+                <span style="font-size:11px;color:var(--dim);">답변하러 가기 →</span>
+              </div>
+              <div class="ans-nudge">
+                <div class="ans-nudge-badge" style="font-size:0;width:28px;height:28px;background:var(--vl);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7B4FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+                <div class="ans-nudge-text">지금 첫 번째로 답변하면
+                  <div class="ans-nudge-sub">이번 주 명예의 전당 포인트 +5 획득</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 소형 카드 묶음 (밀도 낮은 리스트) -->
+            <div class="qa-sm-group card-enter-2">
+              <div class="qa-card-sm" onclick="goTo('s-qdetail')">
+                <div class="qa-side-dot answered"></div>
+                <div class="qa-card-sm-body">
+                  <div style="font-size:13px;font-weight:600;color:var(--ink);line-height:1.45;margin-bottom:4px;word-break:keep-all;">형광 프린트 vs 리소, 제출용으로 어떤 게 나을까요?</div>
+                  <div style="display:flex;align-items:center;gap:7px;"><span class="qa-cat">#재료·도구</span><span style="font-size:11px;color:var(--dim);font-weight:500;">💬 3</span><span class="qa-ts" style="margin-left:auto;">15분 전</span></div>
+                </div>
+              </div>
+              <div class="qa-card-sm" onclick="goTo('s-qdetail')">
+                <div class="qa-side-dot answered"></div>
+                <div class="qa-card-sm-body">
+                  <div style="font-size:13px;font-weight:600;color:var(--ink);line-height:1.45;margin-bottom:4px;word-break:keep-all;">타이포그래피 공모전 포트폴리오에 넣기 좋은 작업 추천해주세요</div>
+                  <div style="display:flex;align-items:center;gap:7px;"><span class="qa-cat">#공모전</span><span style="font-size:11px;color:var(--dim);font-weight:500;">💬 2</span><span class="qa-ts" style="margin-left:auto;">40분 전</span></div>
+                </div>
+              </div>
+              <div class="qa-card-sm" onclick="goTo('s-qdetail')">
+                <div class="qa-side-dot"></div>
+                <div class="qa-card-sm-body">
+                  <div style="font-size:13px;font-weight:600;color:var(--ink);line-height:1.45;margin-bottom:4px;word-break:keep-all;">어도비 학생 라이선스 갱신할 때 뭘 준비해야 해요?</div>
+                  <div style="display:flex;align-items:center;gap:7px;"><span class="qa-cat">#툴·소프트웨어</span><span style="font-size:11px;color:var(--dim);font-weight:400;">—</span><span class="qa-ts" style="margin-left:auto;">1시간 전</span></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 하단 여백 -->
+        <div style="height:8px;"></div>
 
       </div>
     </div>
+
     <div class="botnav" id="botnav-home">
-      <div class="botnav-item" onclick="setTab('home')"><div class="boticon on"><i class="ti ti-home-2"></i></div><span class="botlabel on">홈</span></div>
-      <div class="botnav-item" onclick="setTab('explore')"><div class="boticon"><i class="ti ti-compass"></i></div><span class="botlabel">탐색</span></div>
-      <div class="botnav-item" onclick="goTo('s-qwrite')"><div class="boticon"><i class="ti ti-message-plus"></i></div><span class="botlabel">질문</span></div>
-      <div class="botnav-item" onclick="setTab('notifications')"><div class="boticon"><i class="ti ti-bell"></i></div><span class="botlabel">알림</span></div>
-      <div class="botnav-item" onclick="setTab('my')"><div class="boticon"><i class="ti ti-user"></i></div><span class="botlabel">마이</span></div>
+      <div class="botnav-item" onclick="setTab('home')"><div class="boticon on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="botlabel on">홈</span></div>
+      <div class="botnav-item" onclick="setTab('explore')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div><span class="botlabel">탐색</span></div>
+      <div class="botnav-item" onclick="goTo('s-qwrite')"><div class="boticon" style="color:var(--vi);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><span class="botlabel" style="color:var(--vi);font-weight:700;">질문</span></div>
+      <div class="botnav-item" onclick="setTab('notifications')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><span class="botlabel">알림</span></div>
+      <div class="botnav-item" onclick="setTab('my')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="botlabel">마이</span></div>
     </div>
     <div class="homeind"><div class="homeind-bar"></div></div>
   </div>
 
   <!-- ══════════════ 탐색 ══════════════ -->
   <div class="screen" id="s-explore">
-    <div class="nav-hd" style="border-bottom:1px solid rgba(123,79,255,.07);">
-      <span class="nav-title">탐색</span>
-      <i class="ti ti-adjustments-horizontal" style="font-size:19px;color:var(--vi);"></i>
+
+    <!-- 헤더: 검색이 primary action -->
+    <div style="background:#fff;padding:12px 16px 0;flex-shrink:0;border-bottom:1px solid rgba(0,0,0,.06);">
+      <div style="display:flex;align-items:center;justify-content:space-between;height:44px;margin-bottom:10px;">
+        <span style="font-size:22px;font-weight:900;color:var(--ink);letter-spacing:-1px;">탐색</span>
+      </div>
+      <!-- 검색창 — 탐색의 최우선 기능 -->
+      <div style="background:#F5F5F5;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:9px;margin-bottom:12px;">
+        <i class="ti ti-search" style="font-size:16px;color:var(--dim);flex-shrink:0;"></i>
+        <input type="text" placeholder="질문·키워드·채널 검색" style="flex:1;border:none;outline:none;font-size:13px;color:var(--ink);font-family:inherit;background:transparent;">
+      </div>
+      <!-- 카테고리 필터 칩 -->
+      <div style="display:flex;gap:7px;overflow-x:auto;padding-bottom:12px;">
+        <div style="-webkit-overflow-scrolling:touch;" class="home-cat-row" id="explore-cats">
+          <button class="home-cat-chip c1" onclick="selectExploreCat(this,'전체')">전체</button>
+          <button class="home-cat-chip c6" onclick="selectExploreCat(this,'#재료·도구')">#재료·도구</button>
+          <button class="home-cat-chip c6" onclick="selectExploreCat(this,'#공모전')">#공모전</button>
+          <button class="home-cat-chip c6" onclick="selectExploreCat(this,'#툴·소프트웨어')">#툴·소프트웨어</button>
+          <button class="home-cat-chip c6" onclick="selectExploreCat(this,'#진로·취업')">#진로·취업</button>
+          <button class="home-cat-chip c6" onclick="selectExploreCat(this,'#수업·과제')">#수업·과제</button>
+        </div>
+      </div>
     </div>
+
     <div class="scroll-body">
-      <!-- 웹진 히어로 -->
-      <div style="position:relative;overflow:hidden;cursor:pointer;" onclick="goTo('s-content-detail')">
-        <div style="width:100%;height:220px;background:linear-gradient(160deg,var(--vi),var(--vi2));position:relative;overflow:hidden;">
-          <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=60');background-size:cover;background-position:center;opacity:.2;"></div>
-          <div style="position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.07);"></div>
-          <div style="position:absolute;bottom:-30px;left:-10px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.05);"></div>
-          <div style="position:absolute;bottom:0;left:0;right:0;padding:20px 18px;background:linear-gradient(to top,rgba(0,0,0,.5),transparent);">
-            <div style="font-size:9.5px;color:rgba(255,255,255,.6);letter-spacing:.08em;margin-bottom:6px;text-transform:uppercase;">이번 주 에디터 픽</div>
-            <div style="font-size:19px;font-weight:800;color:#fff;line-height:1.35;letter-spacing:-.4px;">프린트룸 지기가 알려주는<br>형광 vs 리소 완벽 정리</div>
-          </div>
-        </div>
-      </div>
-      <!-- 검색 + 콘텐츠 -->
       <div class="feed-body">
-        <div style="background:#fff;border-radius:14px;border:1.5px solid var(--vl);padding:11px 14px;display:flex;align-items:center;gap:9px;box-shadow:0 2px 8px rgba(123,79,255,.06);">
-          <i class="ti ti-search" style="font-size:16px;color:var(--dim);"></i>
-          <input type="text" placeholder="질문·답변·키워드 검색" style="flex:1;border:none;outline:none;font-size:13px;color:var(--ink);font-family:inherit;background:transparent;">
-        </div>
-        <!-- 아티클 리스트 (웹진 스타일) -->
+
+        <!-- 에디터 픽 — 홈보다 작게, 텍스트 중심 (롱블랙 아티클 스타일) -->
         <div>
-          <div style="display:flex;flex-direction:column;gap:1px;background:rgba(123,79,255,.06);border-radius:14px;overflow:hidden;">
-            <div style="background:#fff;padding:14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;" onclick="goTo('s-content-detail')">
-              <div style="width:64px;height:64px;border-radius:10px;background:#1A1A1A;flex-shrink:0;overflow:hidden;"><div style="width:100%;height:100%;background-image:url('콘텐츠_형광리소.jpg'),url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=200&q=60');background-size:cover;opacity:.8;"></div></div>
-              <div style="flex:1;">
-                <div style="font-size:9.5px;color:var(--vi);font-weight:600;margin-bottom:4px;letter-spacing:.04em;">재료·도구</div>
-                <div style="font-size:13px;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:4px;">형광 vs 리소 완벽 정리</div>
-                <div style="font-size:10.5px;color:var(--dim);">47명이 물어봤어요</div>
+          <div class="sec-hd-v2" style="margin-bottom:10px;">
+            <span class="sec-title-v2">에디터 픽</span>
+            <span class="sec-more-v2">전체보기</span>
+          </div>
+          <!-- 대표 아티클 — 가로형 큰 카드 -->
+          <div style="background:#fff;border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,.06);cursor:pointer;margin-bottom:8px;" onclick="goTo('s-content-detail')">
+            <div style="height:130px;background:#1A1A1A;overflow:hidden;position:relative;">
+              <div style="position:absolute;inset:0;background-image:url('thumb_print.jpg');background-size:cover;background-position:center;opacity:.9;"></div>
+              <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.5) 0%,transparent 60%);"></div>
+              <div style="position:absolute;bottom:12px;left:14px;">
+                <span style="font-size:10px;background:var(--vi);color:#fff;padding:2px 9px;border-radius:20px;font-weight:600;">재료·도구</span>
               </div>
             </div>
-            <div style="background:#fff;padding:14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;">
-              <div style="width:64px;height:64px;border-radius:10px;background:var(--vl);flex-shrink:0;overflow:hidden;"><div style="width:100%;height:100%;background-image:url('아티클_공모전.jpg');background-size:cover;background-position:center;" onerror-fallback></div></div>
-              <div style="flex:1;">
-                <div style="font-size:9.5px;color:var(--vi);font-weight:600;margin-bottom:4px;letter-spacing:.04em;">공모전</div>
-                <div style="font-size:13px;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:4px;">요즘 포트폴리오 트렌드 총정리</div>
-                <div style="font-size:10.5px;color:var(--dim);">32명이 물어봤어요</div>
+            <div style="padding:14px;">
+              <div style="font-size:15px;font-weight:800;color:var(--ink);line-height:1.4;letter-spacing:-.3px;margin-bottom:6px;">프린트룸 지기가 알려주는<br>형광 vs 리소 완벽 정리</div>
+              <div style="font-size:11px;color:var(--dim);">47명이 물어봤어요 · 읽는 데 3분</div>
+            </div>
+          </div>
+          <!-- 소형 아티클 2개 가로 나열 -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="background:#fff;border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,.06);cursor:pointer;">
+              <div style="height:88px;background:#F0F0F0;overflow:hidden;">
+                <div style="width:100%;height:100%;background-image:url('thumb_contest.jpg');background-size:cover;background-position:center;"></div>
+              </div>
+              <div style="padding:10px 12px;">
+                <div style="font-size:10px;color:var(--dim);font-weight:600;margin-bottom:3px;">공모전</div>
+                <div style="font-size:12px;font-weight:700;color:var(--ink);line-height:1.4;">요즘 포트폴리오 트렌드</div>
               </div>
             </div>
-            <div style="background:#fff;padding:14px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;" onclick="goTo('s-channel')">
-              <div style="width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,#F4F1FB,#E8E4FF);flex-shrink:0;overflow:hidden;"><div style="width:100%;height:100%;background-image:url('아티클_시각디자인.jpg');background-size:cover;background-position:center;"></div></div>
-              <div style="flex:1;">
-                <div style="font-size:9.5px;color:var(--vi);font-weight:600;margin-bottom:4px;letter-spacing:.04em;">채널</div>
-                <div style="font-size:13px;font-weight:700;color:var(--ink);line-height:1.4;margin-bottom:4px;">시각디자인 채널 핫 질문</div>
-                <div style="font-size:10.5px;color:var(--dim);">234개 질문 · 189개 답변</div>
+            <div style="background:#fff;border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,.06);cursor:pointer;" onclick="goTo('s-channel')">
+              <div style="height:88px;background:#F0F0F0;overflow:hidden;">
+                <div style="width:100%;height:100%;background-image:url('thumb_channel.jpg');background-size:cover;background-position:center;"></div>
+              </div>
+              <div style="padding:10px 12px;">
+                <div style="font-size:10px;color:var(--dim);font-weight:600;margin-bottom:3px;">채널</div>
+                <div style="font-size:12px;font-weight:700;color:var(--ink);line-height:1.4;">시각디자인 핫 질문</div>
               </div>
             </div>
           </div>
         </div>
-        <!-- 전공별 채널 -->
+
+        <!-- 전공별 채널 — 리스트 뷰 -->
         <div>
-          <div class="sec-hd" style="margin-bottom:10px;"><span class="sec-title">전공별 채널</span><span class="sec-more">전체보기</span></div>
-          <div class="channel-list">
-            <div class="ch-row" onclick="goTo('s-channel')"><div class="ch-icon" style="background:linear-gradient(135deg,#7B4FFF,#5A32D6);"><i class="ti ti-eye" style="color:#fff;font-size:17px;"></i></div><div><div class="ch-name">시각디자인</div><div class="ch-meta">질문 234개 · 답변 189개</div></div><i class="ti ti-chevron-right" style="color:var(--dim);"></i></div>
-            <div class="ch-row"><div class="ch-icon" style="background:linear-gradient(135deg,#1A1A1A,#333);"><i class="ti ti-settings" style="color:#fff;font-size:17px;"></i></div><div><div class="ch-name">공예</div><div class="ch-meta">질문 87개 · 답변 64개</div></div><i class="ti ti-chevron-right" style="color:var(--dim);"></i></div>
-            <div class="ch-row"><div class="ch-icon" style="background:linear-gradient(135deg,#5A32D6,#3D1FA8);"><i class="ti ti-cpu" style="color:#fff;font-size:17px;"></i></div><div><div class="ch-name">산업디자인</div><div class="ch-meta">질문 112개 · 답변 98개</div></div><i class="ti ti-chevron-right" style="color:var(--dim);"></i></div>
+          <div class="sec-hd-v2" style="margin-bottom:10px;">
+            <span class="sec-title-v2">전공별 채널</span>
+            <span class="sec-more-v2">전체보기</span>
+          </div>
+          <div style="background:#fff;border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,.06);">
+            <div class="ch-row" style="border-bottom:1px solid rgba(0,0,0,.05);" onclick="goTo('s-channel')">
+              <div class="ch-icon"><i class="ti ti-eye" style="font-size:17px;color:#555;"></i></div>
+              <div style="flex:1;"><div class="ch-name">시각디자인</div><div class="ch-meta">질문 234개 · 답변 189개</div></div>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+            <div class="ch-row" style="border-bottom:1px solid rgba(0,0,0,.05);">
+              <div class="ch-icon"><i class="ti ti-tool" style="font-size:17px;color:#555;"></i></div>
+              <div style="flex:1;"><div class="ch-name">공예</div><div class="ch-meta">질문 87개 · 답변 64개</div></div>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+            <div class="ch-row" style="border-bottom:1px solid rgba(0,0,0,.05);">
+              <div class="ch-icon"><i class="ti ti-cpu" style="font-size:17px;color:#555;"></i></div>
+              <div style="flex:1;"><div class="ch-name">산업디자인</div><div class="ch-meta">질문 112개 · 답변 98개</div></div>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
+            <div class="ch-row">
+              <div class="ch-icon"><i class="ti ti-shirt" style="font-size:17px;color:#555;"></i></div>
+              <div style="flex:1;"><div class="ch-name">패션디자인</div><div class="ch-meta">질문 54개 · 답변 41개</div></div>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </div>
           </div>
         </div>
+
+        <!-- 최신 질문 리스트 -->
+        <div>
+          <div class="sec-hd-v2">
+            <span class="sec-title-v2">최신 질문</span>
+            <span class="sec-more-v2" onclick="null">필터 <i class="ti ti-adjustments-horizontal" style="font-size:11px;"></i></span>
+          </div>
+          <div style="background:#fff;border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,.06);">
+            <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border-bottom:1px solid rgba(0,0,0,.05);cursor:pointer;" onclick="goTo('s-qdetail')">
+              <div style="width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#E8E8E8;"><img src="avatar_01.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+              <div style="flex:1;">
+                <div style="font-size:13px;font-weight:600;color:var(--ink);line-height:1.45;margin-bottom:5px;word-break:keep-all;">학교 레이저 커터 예약 시스템 어떻게 쓰나요?</div>
+                <div style="display:flex;align-items:center;gap:7px;"><span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#EFEFEF;color:#555;font-weight:500;">#툴·장비</span><span style="font-size:11px;color:var(--dim);font-weight:400;">—</span><span style="font-size:11px;color:var(--dim);margin-left:auto;">2분 전</span></div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 16px;border-bottom:1px solid rgba(0,0,0,.05);cursor:pointer;" onclick="goTo('s-qdetail')">
+              <div style="width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#E8E8E8;"><img src="avatar_03.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+              <div style="flex:1;">
+                <div style="font-size:13px;font-weight:600;color:var(--ink);line-height:1.45;margin-bottom:5px;word-break:keep-all;">형광 프린트 vs 리소, 제출용으로 어떤 게 나을까요?</div>
+                <div style="display:flex;align-items:center;gap:7px;"><span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#EFEFEF;color:#555;font-weight:500;">#재료·도구</span><span style="font-size:11px;color:#2E7D32;font-weight:600;">💬 3</span><span style="font-size:11px;color:var(--dim);margin-left:auto;">15분 전</span></div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:14px;padding:14px 16px;cursor:pointer;" onclick="goTo('s-qdetail')">
+              <div style="width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#E8E8E8;"><img src="avatar_04.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+              <div style="flex:1;">
+                <div style="font-size:13px;font-weight:600;color:var(--ink);line-height:1.45;margin-bottom:5px;word-break:keep-all;">어도비 학생 라이선스 갱신할 때 뭘 준비해야 해요?</div>
+                <div style="display:flex;align-items:center;gap:7px;"><span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#EFEFEF;color:#555;font-weight:500;">#툴·소프트웨어</span><span style="font-size:11px;color:var(--dim);font-weight:400;">—</span><span style="font-size:11px;color:var(--dim);margin-left:auto;">1시간 전</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:8px;"></div>
       </div>
     </div>
+
     <div class="botnav">
-      <div class="botnav-item" onclick="setTab('home')"><div class="boticon"><i class="ti ti-home-2"></i></div><span class="botlabel">홈</span></div>
-      <div class="botnav-item" onclick="setTab('explore')"><div class="boticon on"><i class="ti ti-compass"></i></div><span class="botlabel on">탐색</span></div>
-      <div class="botnav-item" onclick="goTo('s-qwrite')"><div class="boticon"><i class="ti ti-message-plus"></i></div><span class="botlabel">질문</span></div>
-      <div class="botnav-item" onclick="setTab('notifications')"><div class="boticon"><i class="ti ti-bell"></i></div><span class="botlabel">알림</span></div>
-      <div class="botnav-item" onclick="setTab('my')"><div class="boticon"><i class="ti ti-user"></i></div><span class="botlabel">마이</span></div>
+      <div class="botnav-item" onclick="setTab('home')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="botlabel">홈</span></div>
+      <div class="botnav-item" onclick="setTab('explore')"><div class="boticon on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div><span class="botlabel on">탐색</span></div>
+      <div class="botnav-item" onclick="goTo('s-qwrite')"><div class="boticon" style="color:var(--vi);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><span class="botlabel" style="color:var(--vi);font-weight:700;">질문</span></div>
+      <div class="botnav-item" onclick="setTab('notifications')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><span class="botlabel">알림</span></div>
+      <div class="botnav-item" onclick="setTab('my')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="botlabel">마이</span></div>
     </div>
     <div class="homeind"><div class="homeind-bar"></div></div>
   </div>
 
   <!-- ══════════════ 질문 작성 (단순화) ══════════════ -->
   <div class="screen" id="s-qwrite">
-    <div class="nav-hd">
-      <span class="nav-back" onclick="goBack()"><i class="ti ti-arrow-left"></i></span>
+    <div class="nav-hd" style="border-bottom:1px solid rgba(0,0,0,.06);">
+      <span class="nav-back" onclick="goBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
       <span class="nav-title">질문 올리기</span>
-      <span class="nav-action" onclick="submitQuestion()">올리기</span>
+      <span class="nav-action submit-pulse" onclick="submitQuestion()" style="background:var(--vi);color:#fff;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700;">올리기</span>
     </div>
-    <div class="write-body">
-      <div class="write-section">
-        <div class="write-label">카테고리</div>
+    <div class="write-body" style="gap:0;">
+
+      <!-- 카테고리 선택 -->
+      <div style="padding-bottom:16px;border-bottom:1px solid rgba(0,0,0,.05);">
+        <div style="font-size:11px;font-weight:600;color:var(--dim);margin-bottom:10px;letter-spacing:.04em;">카테고리 선택</div>
         <div class="write-chips" id="write-cats">
           <div class="write-chip" onclick="toggleWriteChip(this)">#재료·도구</div>
           <div class="write-chip" onclick="toggleWriteChip(this)">#공모전</div>
@@ -691,35 +1341,52 @@ body{
           <div class="write-chip" onclick="toggleWriteChip(this)">#기타</div>
         </div>
       </div>
-      <div class="write-section">
-        <div class="write-label">질문 제목</div>
-        <textarea class="write-input" rows="2" placeholder="어떤 걸 물어보고 싶으세요?" id="q-title-input"></textarea>
+
+      <!-- 질문 제목 -->
+      <div style="padding:16px 0;border-bottom:1px solid rgba(0,0,0,.05);">
+        <textarea class="write-input" rows="3" placeholder="어떤 걸 물어보고 싶으세요?" id="q-title-input" oninput="updateCharCount(this,60,'title-count')"
+          style="font-size:16px;font-weight:600;color:var(--ink);line-height:1.5;letter-spacing:-.3px;resize:none;border:none;outline:none;width:100%;font-family:inherit;background:transparent;"></textarea>
+      <div class="char-counter" id="title-count">0 / 60</div>
       </div>
-      <div class="write-section">
-        <div class="write-label">내용 (선택)</div>
-        <textarea class="write-input" rows="4" placeholder="더 자세히 적어주시면 더 좋은 답변을 받을 수 있어요"></textarea>
+
+      <!-- 내용 -->
+      <div style="padding:16px 0;border-bottom:1px solid rgba(0,0,0,.05);">
+        <textarea class="write-input" rows="5" placeholder="더 자세히 적어주시면 더 좋은 답변을 받을 수 있어요 (선택)"
+          style="font-size:13px;color:var(--ink);line-height:1.65;resize:none;border:none;outline:none;width:100%;font-family:inherit;background:transparent;"></textarea>
       </div>
-      <div class="write-section">
-        <div class="write-label">이미지 첨부 (선택)</div>
-        <div class="img-upload-zone" onclick="triggerImgUpload()" id="upload-zone">
-          <img class="img-preview" id="img-preview" alt="">
-          <div id="upload-placeholder">
-            <div class="img-placeholder"><i class="ti ti-photo-plus" style="font-size:28px;color:var(--dim);"></i></div>
-            <div class="img-text">탭해서 이미지 추가</div>
+
+      <!-- 이미지 첨부 -->
+      <div style="padding:14px 0;border-bottom:1px solid rgba(0,0,0,.05);">
+        <div class="img-upload-zone" onclick="triggerImgUpload()" id="upload-zone" style="height:90px;border:1.5px dashed rgba(0,0,0,.12);border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;background:#FAFAFA;cursor:pointer;">
+          <img class="img-preview" id="img-preview" alt="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:10px;">
+          <div id="upload-placeholder" style="display:flex;align-items:center;gap:8px;">
+            <i class="ti ti-photo-plus" style="font-size:22px;color:var(--dim);"></i>
+            <span style="font-size:12px;color:var(--dim);">이미지 첨부 (선택)</span>
           </div>
         </div>
         <input type="file" id="img-input" accept="image/*" style="display:none" onchange="handleImgUpload(event)">
       </div>
-      <!-- 공개 설정 간소화 -->
-      <div class="write-section" style="display:flex;align-items:center;justify-content:space-between;">
+
+      <!-- 익명 보장 배지 -->
+      <div class="anon-badge">
+        <div class="anon-badge-icon" style="font-size:0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5A32D6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
         <div>
-          <div class="write-label" style="margin-bottom:2px;">공개 설정</div>
-          <div style="font-size:11px;color:var(--dim);">전체 공개</div>
+          <div class="anon-badge-text">완전 익명으로 올라가요</div>
+          <div class="anon-badge-sub">학년만 표시되고 이름·학번은 공개되지 않아요</div>
         </div>
-        <div id="pub-toggle" onclick="togglePub()" style="width:46px;height:26px;border-radius:13px;background:var(--vi);cursor:pointer;position:relative;transition:background .2s;">
+      </div>
+
+      <!-- 공개 설정 -->
+      <div style="padding:14px 0;display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px;">전체 공개</div>
+          <div style="font-size:11px;color:var(--dim);">모든 학교 선배가 답변할 수 있어요</div>
+        </div>
+        <div id="pub-toggle" onclick="togglePub()" style="width:46px;height:26px;border-radius:12px;background:var(--vi);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0;">
           <div style="width:20px;height:20px;border-radius:50%;background:#fff;position:absolute;top:3px;right:3px;transition:right .2s;box-shadow:0 1px 4px rgba(0,0,0,.2);"></div>
         </div>
       </div>
+
     </div>
     <div class="homeind"><div class="homeind-bar"></div></div>
   </div>
@@ -727,14 +1394,14 @@ body{
   <!-- ══════════════ 질문 올라감 확인 ══════════════ -->
   <div class="screen" id="s-qsuccess">
     <div class="ob-wrap" style="justify-content:center;align-items:center;text-align:center;gap:0;padding:40px 28px;">
-      <div style="width:64px;height:64px;border-radius:20px;background:var(--vi);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 24px rgba(123,79,255,.35);">
+      <div style="width:64px;height:64px;border-radius:20px;background:var(--ink);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 24px rgba(123,79,255,.35);">
         <i class="ti ti-check" style="font-size:30px;color:#fff;"></i>
       </div>
       <div style="font-size:22px;font-weight:800;color:var(--ink);margin-bottom:8px;letter-spacing:-.5px;">질문이 올라갔어요!</div>
       <div style="font-size:13px;color:var(--dim);line-height:1.6;margin-bottom:24px;">답변이 달리면 알림으로 알려드려요</div>
-      <div style="background:var(--vl);border-radius:14px;padding:14px 16px;width:100%;margin-bottom:32px;">
-        <div style="font-size:12px;font-weight:600;color:var(--vi);margin-bottom:4px;">도움주실 선배님 2명에게 알림이 갔어요</div>
-        <div style="font-size:11px;color:#5A3DBF;">관련 전공 선배들에게 자동으로 연결됐어요</div>
+      <div style="background:#F5F5F5;border-radius:16px;padding:14px 16px;width:100%;margin-bottom:32px;">
+        <div style="font-size:12px;font-weight:600;color:var(--dim);margin-bottom:4px;">도움주실 선배님 2명에게 알림이 갔어요</div>
+        <div style="font-size:11px;color:var(--dim);">관련 전공 선배들에게 자동으로 연결됐어요</div>
       </div>
       <button class="ob-btn" onclick="setTab('home')">홈으로 돌아가기</button>
       <div class="ob-skip" onclick="goTo('s-qdetail')">내 질문 확인하기</div>
@@ -745,49 +1412,117 @@ body{
   <!-- ══════════════ 질문 상세 ══════════════ -->
   <div class="screen" id="s-qdetail">
     <div class="nav-hd">
-      <span class="nav-back" onclick="goBack()"><i class="ti ti-arrow-left"></i></span>
+      <span class="nav-back" onclick="goBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
       <span class="nav-title">질문</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
     </div>
     <div class="scroll-body">
+
+      <!-- 질문 본문 -->
       <div class="detail-question">
-        <div class="detail-badges">
-          <span class="detail-badge">시디 4학년</span>
-          <span class="detail-badge">#재료·도구</span>
+        <!-- 질문 작성자 프로필 - 크게 -->
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+          <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--vl);">
+            <img src="avatar_03.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--ink);">시디 4학년</div>
+            <div style="font-size:11px;color:var(--dim);margin-top:1px;">서울시립대 · 2분 전</div>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:6px;">
+            <span class="detail-badge">#재료·도구</span>
+          </div>
         </div>
         <div class="detail-title">학교 레이저 커터 예약 시스템 어떻게 쓰는지 아시는 분 계신가요?</div>
         <div class="detail-body">처음 쓰는 거라 어떻게 예약하는지 잘 모르겠어요. 기관 홈페이지에 가도 잘 안 보이고.. 혹시 알고 계신 분 있으시면 알려주세요!</div>
         <img class="detail-img" id="detail-img" style="display:none;" alt="">
-        <div class="detail-meta">2분 전 · 서울시립대</div>
       </div>
-      <div style="background:var(--vl);padding:12px 14px;"><div style="font-size:11.5px;font-weight:600;color:#5A3DBF;">선배님 2명이 답변을 주셨어요</div></div><div class="answers-section">
+
+      <!-- 답변 섹션 -->
+      <div style="background:#F5F5F5;padding:11px 16px;">
+        <div style="font-size:12px;font-weight:700;color:#5A3DBF;">선배님 2명이 답변을 주셨어요 🙌</div>
+      </div>
+
+      <div class="answers-section">
         <div class="answers-label">답변 2개</div>
+
+        <!-- 답변 1 -->
         <div class="answer-card">
           <div class="ans-top">
-            <div class="ans-avatar">박</div>
-            <div><div class="ans-who">시디 4학년</div></div>
-            <span class="ans-ts">5분 전</span>
+            <!-- 아바타 크게 -->
+            <div style="width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--vl);">
+              <img src="avatar_05.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
+            </div>
+            <div style="flex:1;">
+              <div class="ans-who">시디 4학년</div>
+              <div style="font-size:11px;color:var(--dim);margin-top:1px;">서울시립대 · 5분 전</div>
+            </div>
+            <span class="ans-ts"></span>
           </div>
           <div class="ans-body">학교 포털에서 시설 예약 → 공방 장비 예약으로 들어가시면 레이저 커터 예약 링크 나와요! 미리 안전교육 이수가 필요해서 그것도 같이 확인해보세요 :)</div>
-          <div class="ans-react">
-            <div class="react-btn" onclick="toggleReact(this)"><i class="ti ti-thumb-up" style="font-size:12px;"></i> 도움됐어요 <span>3</span></div>
-            <div class="react-btn" onclick="toggleReact(this)"><i class="ti ti-flame" style="font-size:12px;"></i> <span>1</span></div>
+
+          <!-- 이모지 반응 -->
+          <div class="emoji-react-wrap">
+            <div class="emoji-bar">
+              <div class="emoji-btn on" onclick="toggleEmoji(this)">🙏 <span class="cnt">3</span></div>
+              <div class="emoji-btn" onclick="toggleEmoji(this)">🔥 <span class="cnt">1</span></div>
+              <div class="emoji-btn" onclick="toggleEmoji(this)">💡 <span class="cnt">2</span></div>
+              <div class="emoji-picker-btn" onclick="toggleEmojiPopup(this)" title="반응 추가">＋</div>
+              <div class="emoji-popup">
+                <span class="emoji-opt" onclick="addEmoji(this,'🙌')">🙌</span>
+                <span class="emoji-opt" onclick="addEmoji(this,'❤️')">❤️</span>
+                <span class="emoji-opt" onclick="addEmoji(this,'😮')">😮</span>
+                <span class="emoji-opt" onclick="addEmoji(this,'🤔')">🤔</span>
+                <span class="emoji-opt" onclick="addEmoji(this,'😂')">😂</span>
+                <span class="emoji-opt" onclick="addEmoji(this,'✨')">✨</span>
+                <span class="emoji-opt" onclick="addEmoji(this,'👀')">👀</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- 답변 2 -->
         <div class="answer-card">
           <div class="ans-top">
-            <div class="ans-avatar">김</div>
-            <div><div class="ans-who">시디 3학년</div></div>
-            <span class="ans-ts">10분 전</span>
+            <div style="width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--vl);">
+              <img src="avatar_02.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
+            </div>
+            <div style="flex:1;">
+              <div class="ans-who">시디 3학년</div>
+              <div style="font-size:11px;color:var(--dim);margin-top:1px;">서울시립대 · 10분 전</div>
+            </div>
           </div>
           <div class="ans-body">공방 관리실에 직접 가서 신청서 작성하는 방법도 있어요. 보통 이틀 전에 신청하면 돼요!</div>
-          <div class="ans-react">
-            <div class="react-btn" onclick="toggleReact(this)"><i class="ti ti-thumb-up" style="font-size:12px;"></i> 도움됐어요 <span>1</span></div>
+          <div class="emoji-react-wrap">
+            <div class="emoji-bar">
+              <div class="emoji-btn" onclick="toggleEmoji(this)">🙏 <span class="cnt">1</span></div>
+              <div class="emoji-picker-btn" onclick="toggleEmojiPopup(this)" title="반응 추가">＋</div>
+              <div class="emoji-popup">
+                <span class="emoji-opt" onclick="addEmoji(this,'🙌')">🙌</span>
+                <span class="emoji-opt" onclick="addEmoji(this,'❤️')">❤️</span>
+                <span class="emoji-opt" onclick="addEmoji(this,'😮')">😮</span>
+                <span class="emoji-opt" onclick="addEmoji(this,'🤔')">🤔</span>
+                <span class="emoji-opt" onclick="addEmoji(this,'😂')">😂</span>
+                <span class="emoji-opt" onclick="addEmoji(this,'✨')">✨</span>
+                <span class="emoji-opt" onclick="addEmoji(this,'👀')">👀</span>
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
-    <div class="submit-bar">
-      <button class="submit-btn secondary" onclick="alert('답변 작성 기능은 다음 버전에서 추가돼요!')">답변 달기</button>
+    <div class="submit-bar" style="padding:10px 14px;gap:8px;align-items:center;">
+      <div id="ans-input-wrap" style="flex:1;display:flex;align-items:center;gap:8px;background:#F5F5F5;border-radius:20px;padding:9px 14px;">
+        <div style="width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#E8E8E8;">
+          <img src="avatar_my.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <input type="text" id="ans-text-input" placeholder="답변을 입력하세요..."
+          style="flex:1;border:none;outline:none;font-size:13px;color:var(--ink);font-family:inherit;background:transparent;">
+      </div>
+      <div onclick="submitAnswer()" style="width:36px;height:36px;border-radius:50%;background:var(--vi);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;box-shadow:0 3px 10px rgba(123,79,255,.35);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </div>
     </div>
     <div class="homeind"><div class="homeind-bar"></div></div>
   </div>
@@ -795,25 +1530,25 @@ body{
   <!-- ══════════════ 콘텐츠 상세 ══════════════ -->
   <div class="screen" id="s-content-detail">
     <div class="nav-hd">
-      <span class="nav-back" onclick="goBack()"><i class="ti ti-arrow-left"></i></span>
+      <span class="nav-back" onclick="goBack()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></span>
       <span class="nav-title">콘텐츠</span>
     </div>
     <div class="scroll-body">
-      <div style="background:linear-gradient(160deg,var(--vi),var(--vi2));padding:20px 18px 24px;position:relative;overflow:hidden;">
-        <div style="position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=60');background-size:cover;opacity:.2;"></div>
+      <div style="background:var(--ink);padding:20px 18px 24px;position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background-image:url('thumb_print.jpg');background-size:cover;background-position:center;opacity:.3;"></div>
         <div style="position:relative;z-index:1;">
-          <div style="font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.08em;margin-bottom:8px;">재료 · 도구</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.08em;margin-bottom:8px;">재료 · 도구</div>
           <div style="font-size:22px;font-weight:800;color:#fff;line-height:1.4;margin-bottom:10px;letter-spacing:-.5px;">프린트룸 지기가 알려주는<br>형광 vs 리소 완벽 정리</div>
           <div style="font-size:11px;color:rgba(255,255,255,.5);">47명이 물어봤어요</div>
         </div>
       </div>
       <div style="padding:20px 18px;display:flex;flex-direction:column;gap:16px;">
         <div style="font-size:14px;color:var(--ink);line-height:1.8;">형광 프린트와 리소그래피는 둘 다 독특한 색감을 낼 수 있는 출력 방식이지만, 용도와 상황에 따라 선택이 달라져요.</div>
-        <div style="background:var(--vl);border-radius:14px;padding:16px;">
-          <div style="font-size:13px;font-weight:700;color:var(--vi);margin-bottom:8px;display:flex;align-items:center;gap:6px;"><i class="ti ti-bulb"></i> 형광 프린트를 쓸 때</div>
+        <div style="background:#F0EDF9;border-radius:16px;padding:16px;">
+          <div style="font-size:13px;font-weight:700;color:var(--dim);margin-bottom:8px;display:flex;align-items:center;gap:6px;"><i class="ti ti-bulb"></i> 형광 프린트를 쓸 때</div>
           <div style="font-size:13px;color:var(--ink);line-height:1.7;">빠른 제출이 필요할 때, 선명하고 눈에 띄는 색상이 필요할 때, 대량 출력이 필요할 때 적합해요.</div>
         </div>
-        <div style="background:#F5F5F5;border-radius:14px;padding:16px;">
+        <div style="background:#F5F5F5;border-radius:16px;padding:16px;">
           <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px;"><i class="ti ti-printer"></i> 리소를 쓸 때</div>
           <div style="font-size:13px;color:var(--ink);line-height:1.7;">특유의 질감과 오프셋 효과를 원할 때, 전시나 포트폴리오 제본용으로, 예술적 표현이 목적일 때 추천해요.</div>
         </div>
@@ -825,11 +1560,11 @@ body{
   <!-- ══════════════ 시각 디자인 채널 ══════════════ -->
   <div class="screen" id="s-channel">
     <div style="position:relative;overflow:hidden;flex-shrink:0;">
-      <div style="height:160px;background:linear-gradient(135deg,#7B4FFF,#3D1FA8);position:relative;overflow:hidden;">
+      <div style="height:160px;background:var(--ink);position:relative;overflow:hidden;">
         <div style="position:absolute;top:-20px;right:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.07);"></div>
         <div style="position:absolute;bottom:-30px;left:10px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.05);"></div>
         <div style="position:absolute;top:16px;left:18px;display:flex;align-items:center;gap:8px;z-index:1;cursor:pointer;" onclick="goBack()">
-          <i class="ti ti-arrow-left" style="font-size:20px;color:rgba(255,255,255,.8);"></i>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
         </div>
         <div style="position:absolute;bottom:18px;left:18px;z-index:1;">
           <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px;letter-spacing:.06em;">전공별 채널</div>
@@ -838,7 +1573,7 @@ body{
         </div>
       </div>
       <!-- 태그 필터 -->
-      <div style="background:#fff;padding:12px 14px;border-bottom:1px solid rgba(123,79,255,.07);">
+      <div style="background:#fff;padding:12px 14px;border-bottom:1px solid rgba(0,0,0,.06);">
         <div class="chips">
           <div class="chip on">#전체</div>
           <div class="chip">#재료·도구</div>
@@ -853,41 +1588,41 @@ body{
         <div class="qa-cards">
           <div class="qa-card featured" onclick="goTo('s-qdetail')">
             <div class="qa-top">
-              <div class="qa-avatar"></div>
+              <div class="qa-avatar" data-initial="선"><img src="avatar_02.jpg" alt=""></div>
               <span class="qa-badge">시디 4학년</span>
               <span class="qa-badge dept">#재료·도구</span>
               <span class="qa-ts">2분 전</span>
             </div>
             <div class="qa-title">학교 레이저 커터 예약 시스템 어떻게 쓰는지 아시는 분 계신가요?</div>
-            <div class="qa-bot"><span class="qa-cat">#툴·장비</span><span class="qa-ans none">아직 답변 없음</span></div>
+            <div class="qa-bot"><span class="qa-cat">#툴·장비</span><span class="qa-ans none">—</span></div>
           </div>
           <div class="qa-card" onclick="goTo('s-qdetail')">
             <div class="qa-top">
-              <div class="qa-avatar"></div>
+              <div class="qa-avatar" data-initial="시"><img src="avatar_03.jpg" alt=""></div>
               <span class="qa-badge">시디 3학년</span>
               <span class="qa-ts">15분 전</span>
             </div>
             <div class="qa-title">형광 프린트 vs 리소, 제출용으로 어떤 게 나을까요?</div>
-            <div class="qa-bot"><span class="qa-cat">#재료·도구</span><span class="qa-ans">답변 3</span></div>
+            <div class="qa-bot"><span class="qa-cat">#재료·도구</span><span class="qa-ans">💬 3</span></div>
           </div>
           <div class="qa-card" onclick="goTo('s-qdetail')">
             <div class="qa-top">
-              <div class="qa-avatar"></div>
+              <div class="qa-avatar" data-initial="시"><img src="avatar_04.jpg" alt=""></div>
               <span class="qa-badge">시디 2학년</span>
               <span class="qa-ts">1시간 전</span>
             </div>
             <div class="qa-title">타이포그래피 공모전 포트폴리오에 넣기 좋은 작업 추천해주세요</div>
-            <div class="qa-bot"><span class="qa-cat">#공모전</span><span class="qa-ans">답변 2</span></div>
+            <div class="qa-bot"><span class="qa-cat">#공모전</span><span class="qa-ans">💬 2</span></div>
           </div>
         </div>
       </div>
     </div>
     <div class="botnav">
-      <div class="botnav-item" onclick="setTab('home')"><div class="boticon"><i class="ti ti-home-2"></i></div><span class="botlabel">홈</span></div>
-      <div class="botnav-item" onclick="setTab('explore')"><div class="boticon on"><i class="ti ti-compass"></i></div><span class="botlabel on">탐색</span></div>
-      <div class="botnav-item" onclick="goTo('s-qwrite')"><div class="boticon"><i class="ti ti-message-plus"></i></div><span class="botlabel">질문</span></div>
-      <div class="botnav-item" onclick="setTab('notifications')"><div class="boticon"><i class="ti ti-bell"></i></div><span class="botlabel">알림</span></div>
-      <div class="botnav-item" onclick="setTab('my')"><div class="boticon"><i class="ti ti-user"></i></div><span class="botlabel">마이</span></div>
+      <div class="botnav-item" onclick="setTab('home')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="botlabel">홈</span></div>
+      <div class="botnav-item" onclick="setTab('explore')"><div class="boticon on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div><span class="botlabel on">탐색</span></div>
+      <div class="botnav-item" onclick="goTo('s-qwrite')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><span class="botlabel">질문</span></div>
+      <div class="botnav-item" onclick="setTab('notifications')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><span class="botlabel">알림</span></div>
+      <div class="botnav-item" onclick="setTab('my')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="botlabel">마이</span></div>
     </div>
     <div class="homeind"><div class="homeind-bar"></div></div>
   </div>
@@ -900,121 +1635,296 @@ body{
     <div class="scroll-body">
       <div class="noti-list">
         <div class="noti-card" onclick="goTo('s-qdetail')">
-          <div class="noti-icon"><i class="ti ti-message-circle" style="font-size:19px;color:var(--vi);"></i></div>
+          <div class="noti-icon"><i class="ti ti-message-circle" style="font-size:19px;color:var(--dim);"></i></div>
           <div class="noti-content"><div class="noti-title">내 질문에 새 답변이 달렸어요!</div><div class="noti-meta">2분 전 · 학교 레이저 커터 예약 시스템...</div></div>
-          <div class="noti-dot"></div>
+          <div class="noti-live-dot"></div>
         </div>
         <div class="noti-card">
-          <div class="noti-icon"><i class="ti ti-thumb-up" style="font-size:19px;color:var(--vi);"></i></div>
+          <div class="noti-icon"><i class="ti ti-thumb-up" style="font-size:19px;color:var(--dim);"></i></div>
           <div class="noti-content"><div class="noti-title">내 답변에 도움됐어요 반응이 달렸어요</div><div class="noti-meta">1시간 전 · 형광 프린트 vs 리소...</div></div>
-          <div class="noti-dot"></div>
+          <div class="noti-live-dot"></div>
         </div>
         <div class="noti-card">
-          <div class="noti-icon"><i class="ti ti-bell" style="font-size:19px;color:var(--vi);"></i></div>
+          <div class="noti-icon"><i class="ti ti-bell" style="font-size:19px;color:var(--dim);"></i></div>
           <div class="noti-content"><div class="noti-title">내 질문이 4시간째 답변 없음. 더 많은 선배에게 알렸어요</div><div class="noti-meta">4시간 전</div></div>
         </div>
         <div class="noti-card">
-          <div class="noti-icon"><i class="ti ti-sparkles" style="font-size:19px;color:var(--vi);"></i></div>
+          <div class="noti-icon"><i class="ti ti-sparkles" style="font-size:19px;color:var(--dim);"></i></div>
           <div class="noti-content"><div class="noti-title">이번 주 콘텐츠가 업데이트됐어요</div><div class="noti-meta">어제 · 프린트룸 지기 인터뷰</div></div>
         </div>
       </div>
     </div>
     <div class="botnav">
-      <div class="botnav-item" onclick="setTab('home')"><div class="boticon"><i class="ti ti-home-2"></i></div><span class="botlabel">홈</span></div>
-      <div class="botnav-item" onclick="setTab('explore')"><div class="boticon"><i class="ti ti-compass"></i></div><span class="botlabel">탐색</span></div>
-      <div class="botnav-item" onclick="goTo('s-qwrite')"><div class="boticon"><i class="ti ti-message-plus"></i></div><span class="botlabel">질문</span></div>
-      <div class="botnav-item" onclick="setTab('notifications')"><div class="boticon on"><i class="ti ti-bell"></i></div><span class="botlabel on">알림</span></div>
-      <div class="botnav-item" onclick="setTab('my')"><div class="boticon"><i class="ti ti-user"></i></div><span class="botlabel">마이</span></div>
+      <div class="botnav-item" onclick="setTab('home')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="botlabel">홈</span></div>
+      <div class="botnav-item" onclick="setTab('explore')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div><span class="botlabel">탐색</span></div>
+      <div class="botnav-item" onclick="goTo('s-qwrite')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><span class="botlabel">질문</span></div>
+      <div class="botnav-item" onclick="setTab('notifications')"><div class="boticon on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><span class="botlabel on">알림</span></div>
+      <div class="botnav-item" onclick="setTab('my')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="botlabel">마이</span></div>
     </div>
     <div class="homeind"><div class="homeind-bar"></div></div>
   </div>
 
   <!-- ══════════════ 마이 ══════════════ -->
   <div class="screen" id="s-my">
-    <div class="profile-hd">
-      <div class="profile-top">
-        <div class="avatar-lg">이</div>
-        <div><div class="profile-name">이수아</div><span class="profile-badge"><i class="ti ti-circle-check" style="font-size:10px;"></i> 서울시립대 · 시디 3학년</span></div>
-        <div class="profile-edit">편집</div>
-      </div>
-      <div class="stats-row" id="my-stats">
-        <div class="stat-card on" onclick="switchMyTab('questions')"><div class="stat-num">3</div><div class="stat-lbl">내 질문</div></div>
-        <div class="stat-card off" onclick="switchMyTab('answers')"><div class="stat-num">12</div><div class="stat-lbl">내 답변</div></div>
-        <div class="stat-card off" onclick="switchMyTab('scraps')"><div class="stat-num">8</div><div class="stat-lbl">스크랩</div></div>
-      </div>
-    </div>
-    <div class="my-tabs">
-      <div class="my-tab on" id="my-tab-questions" onclick="switchMyTab('questions')">내 질문</div>
-      <div class="my-tab" id="my-tab-answers" onclick="switchMyTab('answers')">내 답변</div>
-      <div class="my-tab" id="my-tab-scraps" onclick="switchMyTab('scraps')">스크랩</div>
-    </div>
 
-    <!-- 내 질문 탭 -->
-    <div class="my-body" id="my-questions">
-      <div class="sec-lbl">최근 1개월</div>
-      <div class="my-q-card featured" onclick="goTo('s-qdetail')">
-        <div class="my-q-label">답변 달림 ✓</div>
-        <div class="my-q-title">형광 프린트 vs 리소, 제출용으로 어떤 게 나을까요?</div>
-        <div class="my-q-bot"><span class="my-q-status">답변 3</span><span class="my-q-ts">2일 전</span></div>
-      </div>
-      <div class="my-q-card" onclick="goTo('s-qdetail')">
-        <div class="my-q-label red">아직 답변 없음</div>
-        <div class="my-q-title">학교 레이저 커터 예약 시스템 어떻게 쓰나요?</div>
-        <div class="my-q-bot"><span class="my-q-status wait">기다리는 중</span><span class="my-q-ts">오늘</span></div>
-      </div>
-      <div class="sec-lbl">이전 질문</div>
-      <div class="list-card">
-        <div class="list-row"><div class="list-txt">타이포그래피 공모전 추천해주세요</div><span class="list-ans">답변 1</span></div>
-        <div class="list-row"><div class="list-txt">어도비 학생 라이선스 갱신 방법</div><span class="list-ans">답변 2</span></div>
-        <div class="list-row" style="border:none;"><div class="list-txt">졸업작품 재료비 영수증 처리</div><span class="list-ans none">답변 없음</span></div>
-      </div>
-    </div>
+    <div class="scroll-body">
 
-    <!-- 내 답변 탭 -->
-    <div class="my-body" id="my-answers" style="display:none;">
-      <div class="impact-bar">
-        <div class="impact-item"><div class="impact-num">247</div><div class="impact-lbl">총 읽힌 수</div></div>
-        <div class="impact-divider"></div>
-        <div class="impact-item"><div class="impact-num">38</div><div class="impact-lbl">도움됐어요</div></div>
-        <div class="impact-divider"></div>
-        <div class="impact-item"><div class="impact-num">12</div><div class="impact-lbl">답변 수</div></div>
+      <!-- ① 프로필 헤더 -->
+      <div style="background:#fff;padding:28px 20px 20px;border-bottom:1px solid rgba(0,0,0,.06);">
+        <div style="display:flex;align-items:flex-start;gap:16px;margin-bottom:20px;">
+          <div style="width:80px;height:80px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#E8E8E8;border:2px solid rgba(0,0,0,.06);">
+            <img src="avatar_my.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <div style="flex:1;padding-top:4px;">
+            <div style="font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.5px;margin-bottom:6px;">이수아</div>
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
+              <span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:8px;background:#EFEFEF;color:#444;display:inline-flex;align-items:center;gap:4px;"><i class="ti ti-circle-check" style="font-size:11px;color:#2E7D32;"></i> 서울시립대</span>
+              <span style="font-size:11px;padding:3px 10px;border-radius:8px;background:#EFEFEF;color:#444;">시디 3학년</span>
+            </div>
+            <button onclick="null" style="font-size:11px;padding:6px 16px;border-radius:8px;border:1px solid rgba(0,0,0,.15);color:var(--ink);font-weight:600;background:#fff;cursor:pointer;font-family:inherit;">프로필 편집</button>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+          <div style="background:#F8F8F8;border-radius:12px;padding:12px;text-align:center;cursor:pointer;" onclick="switchMyTab('questions')">
+            <div style="font-size:22px;font-weight:900;color:var(--ink);letter-spacing:-1px;">3</div>
+            <div style="font-size:10px;color:var(--dim);margin-top:2px;font-weight:500;">내 질문</div>
+          </div>
+          <div style="background:#F8F8F8;border-radius:12px;padding:12px;text-align:center;cursor:pointer;" onclick="switchMyTab('answers')">
+            <div style="font-size:22px;font-weight:900;color:var(--ink);letter-spacing:-1px;">12</div>
+            <div style="font-size:10px;color:var(--dim);margin-top:2px;font-weight:500;">내 답변</div>
+          </div>
+          <div style="background:#F8F8F8;border-radius:12px;padding:12px;text-align:center;cursor:pointer;" onclick="switchMyTab('scraps')">
+            <div style="font-size:22px;font-weight:900;color:var(--ink);letter-spacing:-1px;">8</div>
+            <div style="font-size:10px;color:var(--dim);margin-top:2px;font-weight:500;">스크랩</div>
+          </div>
+        </div>
       </div>
-      <div class="ans-card-my">
-        <div class="ans-origin">원본 질문 · #재료·도구</div>
-        <div class="ans-q">형광 프린트 vs 리소, 제출용으로 어떤 게 나을까요?</div>
-        <div class="ans-body-my">형광은 색이 선명하고 빠르게 뽑을 수 있어서 제출용으로 많이 써요...</div>
-        <div class="ans-impact"><span class="impact-tag"><i class="ti ti-eye" style="font-size:11px;"></i> <b>47명</b> 읽음</span><span class="impact-tag"><i class="ti ti-heart" style="font-size:11px;"></i> <b>12명</b></span><span style="font-size:9px;color:var(--dim);margin-left:auto;">2일 전</span></div>
-      </div>
-      <div class="ans-card-my">
-        <div class="ans-origin">원본 질문 · #공모전</div>
-        <div class="ans-q">올해 그래픽 공모전 포트폴리오에 넣기 좋은 거 추천해주세요</div>
-        <div class="ans-body-my">타이포그래피 공모전이 포트폴리오에 가장 잘 맞아요. 특히...</div>
-        <div class="ans-impact"><span class="impact-tag"><i class="ti ti-eye" style="font-size:11px;"></i> <b>23명</b> 읽음</span><span class="impact-tag"><i class="ti ti-heart" style="font-size:11px;"></i> <b>8명</b></span><span style="font-size:9px;color:var(--dim);margin-left:auto;">5일 전</span></div>
-      </div>
-    </div>
 
-    <!-- 스크랩 탭 -->
-    <div class="my-body" id="my-scraps" style="display:none;">
-      <div class="scrap-grid">
-        <div class="scrap-card" onclick="goTo('s-qdetail')"><div class="scrap-tag">#재료·도구</div><div class="scrap-title">형광 프린트 vs 리소 완벽 정리</div><div class="scrap-meta">답변 3 · 2일 전</div></div>
-        <div class="scrap-card" onclick="goTo('s-qdetail')"><div class="scrap-tag">#공모전</div><div class="scrap-title">그래픽 공모전 포트폴리오 추천</div><div class="scrap-meta">답변 1 · 5일 전</div></div>
-        <div class="scrap-card" onclick="goTo('s-qdetail')"><div class="scrap-tag">#툴·소프트웨어</div><div class="scrap-title">어도비 라이선스 갱신 방법</div><div class="scrap-meta">답변 2 · 1주 전</div></div>
-        <div class="scrap-card" onclick="goTo('s-qdetail')"><div class="scrap-tag">#진로·취업</div><div class="scrap-title">졸업 후 디자인 스튜디오 취업</div><div class="scrap-meta">답변 4 · 2주 전</div></div>
-        <div class="scrap-card" onclick="goTo('s-qdetail')"><div class="scrap-tag">#수업·과제</div><div class="scrap-title">졸업작품 재료비 영수증 처리</div><div class="scrap-meta">답변 0 · 3주 전</div></div>
-        <div class="scrap-more" onclick="alert('더 많은 스크랩이 있어요!')"><div style="font-size:20px;color:var(--vi);">+</div><div style="font-size:10px;color:var(--vi);font-weight:600;margin-top:2px;">더보기</div></div>
+      <!-- ② 명예의 전당 -->
+      <div style="padding:20px 16px;border-bottom:1px solid rgba(0,0,0,.06);">
+        <div class="sec-hd-v2" style="margin-bottom:12px;">
+          <span class="sec-title-v2">🏆 이번 주 <em>명예의 전당</em></span>
+          <span class="sec-more-v2">전체보기</span>
+        </div>
+        <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;">
+          <div style="flex-shrink:0;width:112px;background:#fff;border-radius:16px;padding:14px 10px;border:1.5px solid rgba(123,79,255,.2);text-align:center;position:relative;" class="hall-first">
+            <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:18px;">🥇</div>
+            <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;margin:12px auto 8px;background:#E8E8E8;"><img src="avatar_05.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+            <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:1px;">선배</div>
+            <div style="font-size:10px;color:var(--dim);margin-bottom:7px;">시디 4학년</div>
+            <div style="font-size:12px;font-weight:800;color:var(--ink);">23개</div>
+            <div style="font-size:13px;margin-top:5px;">🙏 🔥 💡</div>
+          </div>
+          <div style="flex-shrink:0;width:112px;background:#fff;border-radius:16px;padding:14px 10px;border:1px solid rgba(0,0,0,.06);text-align:center;position:relative;">
+            <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:18px;">🥈</div>
+            <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;margin:12px auto 8px;background:#E8E8E8;"><img src="avatar_02.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+            <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:1px;">선배</div>
+            <div style="font-size:10px;color:var(--dim);margin-bottom:7px;">시디 3학년</div>
+            <div style="font-size:12px;font-weight:800;color:var(--ink);">17개</div>
+            <div style="font-size:13px;margin-top:5px;">🙏 ✨</div>
+          </div>
+          <div style="flex-shrink:0;width:112px;background:#fff;border-radius:16px;padding:14px 10px;border:1px solid rgba(0,0,0,.06);text-align:center;position:relative;">
+            <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:18px;">🥉</div>
+            <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;margin:12px auto 8px;background:#E8E8E8;"><img src="avatar_03.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+            <div style="font-size:11px;font-weight:700;color:var(--ink);margin-bottom:1px;">선배</div>
+            <div style="font-size:10px;color:var(--dim);margin-bottom:7px;">시디 4학년</div>
+            <div style="font-size:12px;font-weight:800;color:var(--ink);">11개</div>
+            <div style="font-size:13px;margin-top:5px;">💡 👀</div>
+          </div>
+          <div style="flex-shrink:0;width:112px;background:var(--ink);border-radius:16px;padding:14px 10px;text-align:center;position:relative;">
+            <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);font-size:18px;">🎯</div>
+            <div style="width:44px;height:44px;border-radius:50%;overflow:hidden;margin:12px auto 8px;background:#E8E8E8;border:2px solid rgba(255,255,255,.2);"><img src="avatar_my.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+            <div style="font-size:11px;font-weight:700;color:#fff;margin-bottom:1px;">나의 순위</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.45);margin-bottom:7px;">7위</div>
+            <div style="font-size:12px;font-weight:800;color:#fff;">4개</div>
+            <div style="font-size:10px;color:rgba(255,255,255,.4);margin-top:5px;">+3 하면 5위</div>
+          </div>
+        </div>
       </div>
+
+      <!-- ③ 탭 -->
+      <div class="my-tabs" style="background:#fff;border-bottom:1px solid rgba(0,0,0,.06);">
+        <div class="my-tab on" id="my-tab-questions" onclick="switchMyTab('questions')">내 질문</div>
+        <div class="my-tab" id="my-tab-answers" onclick="switchMyTab('answers')">내 답변</div>
+        <div class="my-tab" id="my-tab-scraps" onclick="switchMyTab('scraps')">스크랩</div>
+      </div>
+
+      <!-- 내 질문 -->
+      <div class="my-body" id="my-questions" style="padding:16px;">
+        <!-- Empty State (데모: 버튼으로 토글) -->
+        <div id="my-empty-state" style="display:none;">
+          <div class="empty-state">
+            <div class="empty-illust" style="font-size:0;width:80px;height:80px;background:#F0EDF9;border-radius:24px;display:flex;align-items:center;justify-content:center;margin:0 auto 4px;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C4AEFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h8M8 14h4"/></svg></div>
+            <div class="empty-title">아직 질문이 없어요</div>
+            <div class="empty-desc">망설이지 말고 첫 질문을 올려보세요.<br>선배들이 기다리고 있어요!</div>
+            <button class="empty-btn" onclick="goTo('s-qwrite')">첫 질문 올리기</button>
+          </div>
+        </div>
+        <div class="sec-lbl" style="margin-bottom:10px;">최근 1개월</div>
+        <div class="my-q-card featured" onclick="goTo('s-qdetail')">
+          <div class="my-q-label">답변 달림 ✓</div>
+          <div class="my-q-title">형광 프린트 vs 리소, 제출용으로 어떤 게 나을까요?</div>
+          <div class="my-q-bot"><span class="my-q-status">💬 3</span><span class="my-q-ts">2일 전</span></div>
+        </div>
+        <div class="my-q-card" onclick="goTo('s-qdetail')">
+          <div class="my-q-label red">—</div>
+          <div class="my-q-title">학교 레이저 커터 예약 시스템 어떻게 쓰나요?</div>
+          <div class="my-q-bot"><span class="my-q-status wait">기다리는 중</span><span class="my-q-ts">오늘</span></div>
+        </div>
+        <div class="sec-lbl" style="margin-bottom:8px;">이전 질문</div>
+        <div class="list-card">
+          <div class="list-row"><div class="list-txt">타이포그래피 공모전 추천해주세요</div><span class="list-ans">💬 1</span></div>
+          <div class="list-row"><div class="list-txt">어도비 학생 라이선스 갱신 방법</div><span class="list-ans">💬 2</span></div>
+          <div class="list-row" style="border:none;"><div class="list-txt">졸업작품 재료비 영수증 처리</div><span class="list-ans none" style="color:var(--dim);">없음</span></div>
+        </div>
+      </div>
+
+      <!-- 내 답변 -->
+      <div class="my-body" id="my-answers" style="display:none;padding:16px;">
+
+        <!-- 답변자 대시보드 -->
+        <div class="answerer-card" style="margin-bottom:16px;">
+          <div class="answerer-level">LEVEL 2 · 성장하는 선배</div>
+          <div class="answerer-title">이수아 선배</div>
+          <div class="answerer-sub">이번 주 7위 · 다음 주 TOP 5 도전 중</div>
+          <div class="answerer-stats">
+            <div class="answerer-stat">
+              <div class="answerer-stat-num">12</div>
+              <div class="answerer-stat-lbl">총 답변</div>
+            </div>
+            <div class="answerer-stat-div"></div>
+            <div class="answerer-stat">
+              <div class="answerer-stat-num">38</div>
+              <div class="answerer-stat-lbl">받은 반응</div>
+            </div>
+            <div class="answerer-stat-div"></div>
+            <div class="answerer-stat">
+              <div class="answerer-stat-num">60</div>
+              <div class="answerer-stat-lbl">포인트</div>
+            </div>
+          </div>
+          <!-- 포인트 바 -->
+          <div style="margin-top:14px;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+              <span style="font-size:10px;color:rgba(255,255,255,.45);">다음 레벨까지</span>
+              <span style="font-size:10px;color:rgba(255,255,255,.45);">60 / 100 포인트</span>
+            </div>
+            <div style="height:4px;background:rgba(255,255,255,.12);border-radius:2px;">
+              <div style="width:60%;height:100%;background:var(--vi);border-radius:2px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 획득 뱃지 -->
+        <div class="sec-hd-v2" style="margin-bottom:12px;">
+          <span class="sec-title-v2">내 뱃지</span>
+          <span class="sec-more-v2">전체보기</span>
+        </div>
+        <div class="badge-grid" style="margin-bottom:20px;">
+          <div class="badge-item">
+            <div class="badge-icon earned"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+            <div class="badge-name">첫 답변</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon earned"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF5722" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+            <div class="badge-name">연속 답변</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon earned"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFC107" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+            <div class="badge-name">인정받은 답변</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon locked"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#CCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+            <div class="badge-name locked">명예의 전당</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon locked"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#CCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+            <div class="badge-name locked">스타 선배</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon locked"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#CCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+            <div class="badge-name locked">졸업 선배</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon locked"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#CCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+            <div class="badge-name locked">TOP 1</div>
+          </div>
+          <div class="badge-item">
+            <div class="badge-icon locked"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#CCC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+            <div class="badge-name locked">다이아</div>
+          </div>
+        </div>
+
+        <!-- 답변 추천 (유도) -->
+        <div class="sec-hd-v2" style="margin-bottom:10px;">
+          <span class="sec-title-v2">지금 답변하면 <em>포인트 +5</em></span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+          <div class="rec-q-card" onclick="goTo('s-qdetail')">
+            <span class="rec-q-urgency hot">인기</span>
+            <div style="flex:1;">
+              <div style="font-size:13px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:4px;">형광 프린트 vs 리소, 제출용으로 어떤 게 나을까요?</div>
+              <div style="font-size:11px;color:var(--dim);">#재료·도구 · 47명이 기다리는 중</div>
+            </div>
+          </div>
+          <div class="rec-q-card" onclick="goTo('s-qdetail')">
+            <span class="rec-q-urgency new">새 질문</span>
+            <div style="flex:1;">
+              <div style="font-size:13px;font-weight:600;color:var(--ink);line-height:1.4;margin-bottom:4px;">학교 레이저 커터 예약 시스템 어떻게 쓰나요?</div>
+              <div style="font-size:11px;color:var(--dim);">#툴·장비 · 아직 답변 없음</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 기존 내 답변 목록 -->
+        <div class="sec-hd-v2" style="margin-bottom:10px;">
+          <span class="sec-title-v2">내가 달았던 답변</span>
+        </div>
+        <div class="impact-bar" style="margin-bottom:16px;">
+          <div class="impact-item"><div class="impact-num">247</div><div class="impact-lbl">총 읽힌 수</div></div>
+          <div class="impact-divider"></div>
+          <div class="impact-item"><div class="impact-num">38</div><div class="impact-lbl">도움됐어요</div></div>
+          <div class="impact-divider"></div>
+          <div class="impact-item"><div class="impact-num">12</div><div class="impact-lbl">답변 수</div></div>
+        </div>
+        <div class="ans-card-my">
+          <div class="ans-origin">원본 질문 · #재료·도구</div>
+          <div class="ans-q">형광 프린트 vs 리소, 제출용으로 어떤 게 나을까요?</div>
+          <div class="ans-body-my">형광은 색이 선명하고 빠르게 뽑을 수 있어서 제출용으로 많이 써요...</div>
+          <div class="ans-impact"><span class="impact-tag"><i class="ti ti-eye" style="font-size:11px;"></i> <b>47명</b> 읽음</span><span class="impact-tag"><i class="ti ti-heart" style="font-size:11px;"></i> <b>12명</b></span><span style="font-size:11px;color:var(--dim);margin-left:auto;">2일 전</span></div>
+        </div>
+        <div class="ans-card-my">
+          <div class="ans-origin">원본 질문 · #공모전</div>
+          <div class="ans-q">올해 그래픽 공모전 포트폴리오에 넣기 좋은 거 추천해주세요</div>
+          <div class="ans-body-my">타이포그래피 공모전이 포트폴리오에 가장 잘 맞아요. 특히...</div>
+          <div class="ans-impact"><span class="impact-tag"><i class="ti ti-eye" style="font-size:11px;"></i> <b>23명</b> 읽음</span><span class="impact-tag"><i class="ti ti-heart" style="font-size:11px;"></i> <b>8명</b></span><span style="font-size:11px;color:var(--dim);margin-left:auto;">5일 전</span></div>
+        </div>
+      </div>
+
+      <!-- 스크랩 -->
+      <div class="my-body" id="my-scraps" style="display:none;padding:16px;">
+        <div class="scrap-grid">
+          <div class="scrap-card" onclick="goTo('s-qdetail')"><div class="scrap-tag">#재료·도구</div><div class="scrap-title">형광 프린트 vs 리소 완벽 정리</div><div class="scrap-meta">답변 3 · 2일 전</div></div>
+          <div class="scrap-card" onclick="goTo('s-qdetail')"><div class="scrap-tag">#공모전</div><div class="scrap-title">그래픽 공모전 포트폴리오 추천</div><div class="scrap-meta">답변 1 · 5일 전</div></div>
+          <div class="scrap-card" onclick="goTo('s-qdetail')"><div class="scrap-tag">#툴·소프트웨어</div><div class="scrap-title">어도비 라이선스 갱신 방법</div><div class="scrap-meta">답변 2 · 1주 전</div></div>
+          <div class="scrap-card" onclick="goTo('s-qdetail')"><div class="scrap-tag">#진로·취업</div><div class="scrap-title">졸업 후 디자인 스튜디오 취업</div><div class="scrap-meta">답변 4 · 2주 전</div></div>
+          <div class="scrap-card" onclick="goTo('s-qdetail')"><div class="scrap-tag">#수업·과제</div><div class="scrap-title">졸업작품 재료비 영수증 처리</div><div class="scrap-meta">답변 0 · 3주 전</div></div>
+          <div class="scrap-more" onclick="alert('더 많은 스크랩이 있어요!')"><div style="font-size:20px;color:var(--dim);">+</div><div style="font-size:11px;color:var(--dim);font-weight:600;margin-top:2px;">더보기</div></div>
+        </div>
+      </div>
+
+      <div style="height:16px;"></div>
     </div>
 
     <div class="botnav">
-      <div class="botnav-item" onclick="setTab('home')"><div class="boticon"><i class="ti ti-home-2"></i></div><span class="botlabel">홈</span></div>
-      <div class="botnav-item" onclick="setTab('explore')"><div class="boticon"><i class="ti ti-compass"></i></div><span class="botlabel">탐색</span></div>
-      <div class="botnav-item" onclick="goTo('s-qwrite')"><div class="boticon"><i class="ti ti-message-plus"></i></div><span class="botlabel">질문</span></div>
-      <div class="botnav-item" onclick="setTab('notifications')"><div class="boticon"><i class="ti ti-bell"></i></div><span class="botlabel">알림</span></div>
-      <div class="botnav-item" onclick="setTab('my')"><div class="boticon on"><i class="ti ti-user"></i></div><span class="botlabel on">마이</span></div>
+      <div class="botnav-item" onclick="setTab('home')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span class="botlabel">홈</span></div>
+      <div class="botnav-item" onclick="setTab('explore')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div><span class="botlabel">탐색</span></div>
+      <div class="botnav-item" onclick="goTo('s-qwrite')"><div class="boticon" style="color:var(--vi);"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><span class="botlabel" style="color:var(--vi);font-weight:700;">질문</span></div>
+      <div class="botnav-item" onclick="setTab('notifications')"><div class="boticon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><span class="botlabel">알림</span></div>
+      <div class="botnav-item" onclick="setTab('my')"><div class="boticon on"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><span class="botlabel on">마이</span></div>
     </div>
     <div class="homeind"><div class="homeind-bar"></div></div>
   </div>
-
 </div><!-- .device -->
 
 <script>
@@ -1069,6 +1979,7 @@ function setTab(tab) {
   cur.classList.remove('active');
   next.classList.add('active');
   stack = [id];
+  if (tab === 'home') triggerHomeToast();
 }
 
 // ── 칩 필터 ──
@@ -1117,7 +2028,176 @@ function handleImgUpload(e) {
   reader.readAsDataURL(file);
 }
 
-// ── 답변 반응 ──
+// ── 이모지 반응 토글 ──
+function toggleEmoji(el) {
+  el.classList.toggle('on');
+  const cnt = el.querySelector('.cnt');
+  cnt.textContent = el.classList.contains('on')
+    ? parseInt(cnt.textContent) + 1
+    : Math.max(0, parseInt(cnt.textContent) - 1);
+}
+
+// ── 이모지 팝업 ──
+function toggleEmojiPopup(btn) {
+  const popup = btn.nextElementSibling;
+  const isOpen = popup.classList.contains('open');
+  // 모든 팝업 닫기
+  document.querySelectorAll('.emoji-popup').forEach(p => p.classList.remove('open'));
+  if (!isOpen) popup.classList.add('open');
+}
+
+// ── 팝업에서 이모지 선택해서 바에 추가 ──
+function addEmoji(optEl, emoji) {
+  const popup = optEl.closest('.emoji-popup');
+  const bar = popup.closest('.emoji-react-wrap').querySelector('.emoji-bar');
+  // 이미 있는 버튼이면 on 토글
+  let found = false;
+  bar.querySelectorAll('.emoji-btn').forEach(btn => {
+    if (btn.textContent.startsWith(emoji)) {
+      toggleEmoji(btn);
+      found = true;
+    }
+  });
+  // 없으면 새 버튼 생성
+  if (!found) {
+    const newBtn = document.createElement('div');
+    newBtn.className = 'emoji-btn on';
+    newBtn.onclick = function(){ toggleEmoji(this); };
+    newBtn.innerHTML = `${emoji} <span class="cnt">1</span>`;
+    bar.insertBefore(newBtn, bar.querySelector('.emoji-picker-btn'));
+  }
+  popup.classList.remove('open');
+}
+
+// 팝업 외부 클릭시 닫기
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.emoji-react-wrap')) {
+    document.querySelectorAll('.emoji-popup').forEach(p => p.classList.remove('open'));
+  }
+});
+
+function selectExploreCat(el, cat) {
+  document.querySelectorAll('#explore-cats .home-cat-chip').forEach(c => {
+    c.className = 'home-cat-chip c6';
+  });
+  el.className = 'home-cat-chip c1';
+}
+
+// ── 토스트 알림 ──
+function showToast(msg, avatarSrc) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.innerHTML = avatarSrc
+    ? `<div class="toast-avatar"><img src="${avatarSrc}" alt=""></div><span>${msg}</span>`
+    : `<div class="toast-dot"></div><span>${msg}</span>`;
+  document.body.appendChild(t);
+  setTimeout(() => {
+    t.classList.add('hide');
+    setTimeout(() => t.remove(), 300);
+  }, 3200);
+}
+
+// ── 답변 보상 팝업 ──
+function showReward(points, badgeName) {
+  const existing = document.querySelector('.reward-popup');
+  if (existing) existing.remove();
+  const p = document.createElement('div');
+  p.className = 'reward-popup';
+  p.innerHTML = `
+    <div style="width:56px;height:56px;background:#F0EDF9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7B4FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <div class="reward-title">답변 완료!</div>
+    <div class="reward-sub">47명에게 도움이 될 거예요</div>
+    <div class="reward-badge">+ ${points} 포인트 획득</div>
+    ${badgeName ? `<div style="margin-top:6px;font-size:11px;color:var(--vi);font-weight:700;">🏅 '${badgeName}' 뱃지 획득!</div>` : ''}
+  `;
+  document.body.appendChild(p);
+  setTimeout(() => p.remove(), 3000);
+}
+
+// ── 홈 진입 시 실시간 토스트 ──
+let toastShown = false;
+function triggerHomeToast() {
+  if (toastShown) return;
+  toastShown = true;
+  setTimeout(() => showToast('시디 4학년 선배가 내 질문에 답변했어요', 'avatar_05.jpg'), 1800);
+}
+
+// ── 글자수 카운터 ──
+function updateCharCount(el, max, counterId) {
+  const len = el.value.length;
+  const counter = document.getElementById(counterId);
+  if (!counter) return;
+  counter.textContent = `${len} / ${max}`;
+  counter.classList.toggle('warn', len > max * 0.85);
+}
+
+// ── 헤더 스크롤 shadow ──
+document.querySelectorAll('.scroll-body').forEach(body => {
+  body.addEventListener('scroll', () => {
+    const hd = document.getElementById('main-hd');
+    if (!hd) return;
+    hd.classList.toggle('scrolled', body.scrollTop > 4);
+  });
+});
+
+// ── 화면 진입 시 카드 애니메이션 트리거 ──
+function triggerCardAnim() {
+  document.querySelectorAll('.card-enter,.card-enter-2,.card-enter-3').forEach(el => {
+    el.style.animation = 'none';
+    el.offsetHeight; // reflow
+    el.style.animation = '';
+  });
+}
+
+// ── 답변 제출 ──
+function submitAnswer() {
+  const input = document.getElementById('ans-text-input');
+  const text = input ? input.value.trim() : '';
+  if (!text) return;
+
+  const section = document.querySelector('.answers-section');
+  const card = document.createElement('div');
+  card.className = 'answer-card';
+  card.style.animation = 'slideIn .2s ease';
+  card.innerHTML = `
+    <div class="ans-top">
+      <div style="width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#E8E8E8;">
+        <img src="avatar_my.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div style="flex:1;">
+        <div class="ans-who">시디 3학년 (나)</div>
+        <div style="font-size:11px;color:var(--dim);margin-top:1px;">방금 전</div>
+      </div>
+    </div>
+    <div class="ans-body">${text}</div>
+    <div class="emoji-react-wrap">
+      <div class="emoji-bar">
+        <div class="emoji-picker-btn" onclick="toggleEmojiPopup(this)">＋</div>
+        <div class="emoji-popup">
+          <span class="emoji-opt" onclick="addEmoji(this,'🙌')">🙌</span>
+          <span class="emoji-opt" onclick="addEmoji(this,'❤️')">❤️</span>
+          <span class="emoji-opt" onclick="addEmoji(this,'😮')">😮</span>
+          <span class="emoji-opt" onclick="addEmoji(this,'🤔')">🤔</span>
+          <span class="emoji-opt" onclick="addEmoji(this,'😂')">😂</span>
+          <span class="emoji-opt" onclick="addEmoji(this,'✨')">✨</span>
+          <span class="emoji-opt" onclick="addEmoji(this,'👀')">👀</span>
+        </div>
+      </div>
+    </div>
+  `;
+  section.appendChild(card);
+  input.value = '';
+  card.scrollIntoView({ behavior: 'smooth', block: 'end' });
+
+  // 보상 팝업
+  setTimeout(() => showReward(5, null), 400);
+  // 다른 사람에게 알림 토스트 (시뮬레이션)
+  setTimeout(() => showToast('질문자에게 알림을 보냈어요', null), 1200);
+}
+
+// ── 답변 반응 (기존 호환) ──
 function toggleReact(el) {
   el.classList.toggle('on');
   const num = el.querySelector('span');
@@ -1166,30 +2246,32 @@ function togglePub() {
 
 // ── 질문 제출 ──
 function submitQuestion() {
-  const cnt = parseInt(document.getElementById('home-q-count').textContent);
-  document.getElementById('home-q-count').textContent = cnt + 1;
+  const cntEl = document.getElementById('home-q-count');
+  if (cntEl) cntEl.textContent = parseInt(cntEl.textContent) + 1;
 
   const feed = document.getElementById('home-feed');
   const cat = document.querySelector('.write-chip.sel')?.textContent || '#기타';
   const titleEl = document.getElementById('q-title-input');
-  const title = titleEl ? titleEl.value : '';
+  const title = titleEl ? titleEl.value.trim() : '';
   const card = document.createElement('div');
-  card.className = 'qa-card featured';
+  card.className = 'qa-card-lg';
   card.onclick = () => goTo('s-qdetail');
   card.innerHTML = `
-    <div class="qa-top">
-      <div class="qa-avatar"></div>
-      <span class="qa-badge">시디 3학년</span>
-      <span class="qa-badge dept">${cat}</span>
-      <span class="qa-ts">방금 전</span>
+    <div class="qa-top" style="margin-bottom:12px;align-items:center;">
+      <div class="qa-avatar"><img src="avatar_my.jpg" alt=""></div>
+      <div style="flex:1;margin-left:10px;">
+        <div style="font-size:12.5px;font-weight:700;color:var(--ink);">시디 3학년</div>
+        <div style="font-size:10px;color:var(--dim);margin-top:1px;">방금 전</div>
+      </div>
+      <span class="qa-badge dept" style="font-size:9px;">${cat}</span>
     </div>
-    <div class="qa-title">${title || '새로운 질문이 올라왔어요'}</div>
-    <div class="qa-bot"><span class="qa-cat">${cat}</span><span class="qa-ans none">아직 답변 없음</span></div>
+    <div style="font-size:14px;font-weight:700;color:var(--ink);line-height:1.45;margin-bottom:12px;letter-spacing:-.3px;word-break:keep-all;">${title || '새로운 질문이 올라왔어요'}</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <span style="font-size:10px;padding:4px 10px;border-radius:8px;background:#FFF0F0;color:var(--coral);font-weight:600;">—</span>
+      <span style="font-size:10px;color:var(--dim);">답변하러 가기 →</span>
+    </div>
   `;
-  feed.prepend(card);
-
-  document.querySelector('#my-stats .stat-card:first-child .stat-num').textContent =
-    parseInt(document.querySelector('#my-stats .stat-card:first-child .stat-num').textContent) + 1;
+  if (feed) feed.prepend(card);
 
   goTo('s-qsuccess');
 }
